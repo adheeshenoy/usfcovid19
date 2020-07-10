@@ -242,5 +242,13 @@ def st_pete_toggle_collapse(n, is_open):
     return is_open
 
 
+# app.scripts.config.serve_locally = False
+# app.scripts.append_script({
+#     'external_url': 'https://www.googletagmanager.com/gtag/js?id=UA-172379483-1'
+# })
+# app.scripts.append_script({
+#     'external_url': 'https://cdn.jsdelivr.net/gh/lppier/lppier.github.io/gtag.js'
+# })
+
 if __name__ == '__main__':
     app.run_server(debug=True)
