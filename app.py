@@ -26,6 +26,9 @@ app = dash.Dash(
 
 server = app.server
 
+app.title = 'USF Covid 19'
+app._favicon = '/assets/favicon.ico'
+
 # cache = Cache(app.server,
 #               config={
 #                   'CACHE_TYPE': 'filesystem',
