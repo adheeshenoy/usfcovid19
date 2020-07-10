@@ -1,0 +1,45 @@
+/* DARK_GREEN = '#005432'
+LIGHT_GREEN = '#006747'
+LIGHT_GOLD = '#CFC493'
+SAND = '#EDEBD1'
+GREY = '#EDF0F1'
+STORM = '#006484'
+APPLE = '#9CCB3B'
+TEAL = '#009374' */
+
+html{
+    background: #FFFFFF
+}
+
+.row.align-items-stretch .card {
+    height: 100%;
+}
+
+
+#footer{
+    padding: 1rem;
+    background: #005432;
+    margin-top: 2rem;
+    text-align: center;
+    color: white;
+    font-size: 1.2rem;
+}
+
+#footer img{
+    width: 1.5%;
+    margin-bottom: 0.5rem;
+    margin-left: 0.5rem;
+}
+
+#footer a{
+    color: white;
+}
+
+#footer a:hover{
+    color: #CFC493 ;
+    text-decoration: none;
+}
+
+.collapse .navbar-nav .nav-item .nav-link:hover{
+    color:#CFC493;
+}
