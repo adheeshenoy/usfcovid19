@@ -3,6 +3,7 @@ import plotly.graph_objs as go
 from datetime import datetime
 import constants as const
 
+config = {'doubleClickDelay': 1}
 
 # Tracers
 def generate_daily_bar_graph(tampa, stPete):
@@ -50,11 +51,12 @@ def generate_employee_student_total_graph(student, employee, health=None):
             go.Scatter(x=health['dates'],
                        y=health['cases'],
                        name='USF Health Employee',
-                       line = dict(color = const.TEAL)))
+                       mode = 'lines',
+                       line = dict(color = const.TEAL, width = 4)))
     tracerList.append(
-        go.Scatter(x=student['dates'], y=student['cases'], name='Student', line = dict(color = const.STORM)))
+        go.Scatter(x=student['dates'], y=student['cases'], name='Student',mode = 'lines', line = dict(color = const.STORM, width = 4)))
     tracerList.append(
-        go.Scatter(x=employee['dates'], y=employee['cases'], name='Employee', line = dict(color = const.APPLE)))
+        go.Scatter(x=employee['dates'], y=employee['cases'], name='Employee', mode = ' lines', line = dict(color = const.APPLE, width = 4)))
     return tracerList
 
 
@@ -148,10 +150,10 @@ def general_bar_layout(title):
                          label="1 month",
                          step="month",
                          stepmode="backward"),
-                    dict(count=3,
-                         label="3 months",
-                         step="month",
-                         stepmode="backward"),
+                    # dict(count=3,
+                    #      label="3 months",
+                    #      step="month",
+                    #      stepmode="backward"),
                     #   dict(count=6,
                     #        label="6 months",
                     #        step="month",
@@ -184,10 +186,10 @@ def stacked_graph_layout(title):
                          label="1 month",
                          step="month",
                          stepmode="backward"),
-                    dict(count=3,
-                         label="3 months",
-                         step="month",
-                         stepmode="backward"),
+                    # dict(count=3,
+                    #      label="3 months",
+                    #      step="month",
+                    #      stepmode="backward"),
                     #   dict(count=6,
                     #        label="6 months",
                     #        step="month",

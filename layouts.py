@@ -21,13 +21,16 @@ navbar = dbc.NavbarSimple(
     brand_href="https://www.usf.edu/coronavirus/",
     color=const.LIGHT_GREEN,
     fluid=True,
+    expand = 'lg',
     id = 'navigation',
     dark=True,
-    brand_style=dict(fontSize=30),
+    # brand_style=dict(fontSize=30),
     style=dict(position='sticky',
                top=0,
                zIndex=99,
-               borderBottom="solid 1px white"))
+               borderBottom="solid 1px white"),
+    # className = "container-fullwidth"
+    )
 
 # Alert
 alert = html.Div([
@@ -140,9 +143,11 @@ cards = html.Div([
 
 # General Graphs
 dailyBarGraph = dcc.Graph(id='daily-bar-graph',
-                          config=dict(displaylogo=False,
-                                      displayModeBar=False,
-                                      scrollZoom=False))
+                          config=dict(
+                                        doubleClickDelay = 1,
+                                        displaylogo=False,
+                                        displayModeBar=False,
+                                        scrollZoom=False))
 
 totalScatterGraph = dcc.Graph(id='total-scatter-graph',
                               config=dict(displaylogo=False,
@@ -161,7 +166,9 @@ tampaEmployeeStudentGraph = html.Div([
                           displayModeBar=False,
                           scrollZoom=False)),
     dcc.Graph(id='tampa-employee-student-daily-graph',
-              config=dict(displaylogo=False,
+              config=dict(
+                        doubleClickDelay = 1,
+                        displaylogo=False,
                           displayModeBar=False,
                           scrollZoom=False)),
     html.Div(
@@ -210,7 +217,9 @@ stPeteEmployeeStudentGraph = html.Div([
                           displayModeBar=False,
                           scrollZoom=False)),
     dcc.Graph(id='st-pete-employee-student-daily-graph',
-              config=dict(displaylogo=False,
+              config=dict(
+                            doubleClickDelay = 1,
+                            displaylogo=False,
                           displayModeBar=False,
                           scrollZoom=False)),
     html.Div(
@@ -253,11 +262,11 @@ tabs = dbc.Tabs(
     [
         dbc.Tab(tampaTab,
                 label="USF Tampa Campus",
-                label_style={"color": const.DARK_GREEN},
+                label_style={"color": const.DARK_GREEN, 'font-size': '1.25rem'},
                 tab_id='tampa-tab'),
         dbc.Tab(stPeteTab,
                 label="USF St. Petersburg Campus",
-                label_style={"color": const.DARK_GREEN},
+                label_style={"color": const.DARK_GREEN, 'font-size': '1.25rem'},
                 tab_id='st-pete-tab'),
     ],
     id='campus-tabs',

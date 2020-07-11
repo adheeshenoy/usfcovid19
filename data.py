@@ -70,4 +70,7 @@ def __get_data():
     # df['dates'] = df['dates'].apply(lambda date: datetime.strptime(date, '%B %d %Y'))
     df = pd.DataFrame(dataDict)
     df = df.reindex(index=df.index[::-1])
+    df = df.groupby(['dates', 'locations', 'occupations'],
+                    sort=False,
+                    as_index=False).sum()
     return df.to_json()

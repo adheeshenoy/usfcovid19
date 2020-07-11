@@ -15,6 +15,18 @@ html{
     height: 100%;
 }
 
+@media only screen and (max-width: 600px) {
+    #navigation .container-fluid .navbar-brand{
+        font-size:1rem;
+    }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    #navigation .container-fluid .navbar-brand{
+        font-size:1.5rem;
+    }
+}
 
 #footer{
     padding: 1rem;
