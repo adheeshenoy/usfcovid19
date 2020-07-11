@@ -85,8 +85,8 @@ def __get_daily_average(df):
 
 def __create_avg_string(employeeAvg, studentAvg, campus='Tampa'):
     ratio = studentAvg / employeeAvg
-    return f'For any given day, on average, {ratio:.2} times the number of students are tested positive compared to USF {campus} employees.'\
-            if(ratio != 1.0) else f'For any given day, on average, the same number of students are tested positive as USF {campus} employees.'
+    return f'Per day, on average, {ratio:.2} times the number of students are tested positive compared to USF {campus} employees.'\
+            if(ratio != 1.0) else f'Per day, on average, the same number of students are tested positive as USF {campus} employees.'
 
 
 @app.callback([
@@ -234,16 +234,15 @@ def toggle_collapse(n, is_open):
     return is_open
 
 
-@app.callback(
-    Output("st-pete-collapse", "is_open"),
-    [Input("st-pete-collapse-button", "n_clicks")],
-    [State("st-pete-collapse", "is_open")],
-)
-def st_pete_toggle_collapse(n, is_open):
-    if n:
-        return not is_open
-    return is_open
-
+# @app.callback(
+#     Output("st-pete-collapse", "is_open"),
+#     [Input("st-pete-collapse-button", "n_clicks")],
+#     [State("st-pete-collapse", "is_open")],
+# )
+# def st_pete_toggle_collapse(n, is_open):
+#     if n:
+#         return not is_open
+#     return is_open
 
 app.scripts.config.serve_locally = False
 app.scripts.append_script({

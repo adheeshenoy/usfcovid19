@@ -40,7 +40,7 @@ alert = html.Div([
         )
 ])
 
-# Popover for graphs
+# Collapse for graphs
 tampaCollapse = html.Div(
     [
         dbc.Button(
@@ -50,10 +50,18 @@ tampaCollapse = html.Div(
             color="primary",
         ),
         dbc.Collapse(
-            dbc.Card(dbc.CardBody("Tampa collapse")),
-            id="tampa-collapse",
+            dbc.Card(dbc.CardBody([
+                html.H5('The plot represents the distribution of Covid-19 cases through their quartiles'),
+                html.Ul([
+                    html.Li(html.H6('The number of cases per day for an occupation is concentrated between the lower(Q1) and upper(Q3) quartiles.')),
+                    html.Li(html.H6('The mean represents the average number of daily reported cases for the occupation.')),
+                ]),
+                html.H5('''The data suggests that students on the Tampa Campus have a higher mean and a more distributed box
+                                plot. This could be due to a higher probability of students assembling in groups.''')
+                ])),
+            id="tampa-collapse",style = dict(textAlign = 'left')
         ),
-    ]
+    ], 
 )
 
 stPeteCollapse = html.Div(
@@ -148,16 +156,6 @@ tampaEmployeeStudentGraph = html.Div([
               config=dict(displaylogo=False,
                           displayModeBar=False,
                           scrollZoom=False)),
-    html.Div(
-        [
-            tampaCollapse,
-            # tampaBoxGraphPopover,
-            dcc.Graph(id='tampa-employee-student-health-box',
-              config=dict(displaylogo=False,
-                          displayModeBar=False,
-                          scrollZoom=False)),
-        ]
-    ),
     dcc.Graph(id='tampa-employee-student-total-graph',
               config=dict(displaylogo=False,
                           displayModeBar=False,
@@ -166,6 +164,15 @@ tampaEmployeeStudentGraph = html.Div([
               config=dict(displaylogo=False,
                           displayModeBar=False,
                           scrollZoom=False)),
+    html.Div(
+        [
+            dcc.Graph(id='tampa-employee-student-health-box',
+              config=dict(displaylogo=False,
+                          displayModeBar=False,
+                          scrollZoom=False)),
+            tampaCollapse,
+        ],style = dict(textAlign = 'center') 
+    ),
 ])
 
 # Tampa Jumbotron
@@ -198,16 +205,6 @@ stPeteEmployeeStudentGraph = html.Div([
               config=dict(displaylogo=False,
                           displayModeBar=False,
                           scrollZoom=False)),
-    html.Div(
-        [
-            # stPeteBoxGraphPopover,
-            stPeteCollapse,
-            dcc.Graph(id='st-pete-employee-student-health-box',
-              config=dict(displaylogo=False,
-                          displayModeBar=False,
-                          scrollZoom=False)),
-        ]
-    ),
     dcc.Graph(id='st-pete-employee-student-total-graph',
               config=dict(displaylogo=False,
                           displayModeBar=False,
@@ -216,6 +213,15 @@ stPeteEmployeeStudentGraph = html.Div([
               config=dict(displaylogo=False,
                           displayModeBar=False,
                           scrollZoom=False)),
+    html.Div(
+        [
+            dcc.Graph(id='st-pete-employee-student-health-box',
+              config=dict(displaylogo=False,
+                          displayModeBar=False,
+                          scrollZoom=False)),
+            # stPeteCollapse,
+        ],style = dict(textAlign = 'center') 
+    ),
 ])
 
 # St. Pete Jumbotron
