@@ -36,7 +36,9 @@ app._favicon = '/assets/favicon.ico'
 #               })
 
 app.layout = html.Div(
-    [dcc.Store(id='data', data=data.__get_data()), layouts.USFLayout])
+    [dcc.Store(id='data', data=data.__get_data()), layouts.USFLayout],
+    className='container-fullwidth',
+    style=dict(width='100%'))
 
 # Functions and Callbacks
 
