@@ -247,11 +247,11 @@ def toggle_collapse(n, is_open):
 app.scripts.config.serve_locally = False
 app.scripts.append_script({
     'external_url':
-    'https://cdn.jsdelivr.net/gh/adheeshenoy/adheeshenoy.github.io/async_src.js'
+    'https://cdn.jsdelivr.net/gh/adheeshenoy/usfcovid19/async_src.js'
 })
 app.scripts.append_script({
     'external_url':
-    'https://cdn.jsdelivr.net/gh/adheeshenoy/adheeshenoy.github.io/gtag.js'
+    'https://cdn.jsdelivr.net/gh/adheeshenoy/usfcovid19/gtag.js'
 })
 
 if __name__ == '__main__':
