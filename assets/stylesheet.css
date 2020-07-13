@@ -8,7 +8,7 @@ APPLE = '#9CCB3B'
 TEAL = '#009374' */
 
 html{
-    background: #FFFFFF
+    background: #FFFFFF;
 }
 
 .row.align-items-stretch .card {
@@ -17,7 +17,26 @@ html{
 
 @media only screen and (max-width: 600px) {
     #navigation .container-fluid .navbar-brand{
-        font-size:1rem;
+        font-size:2rem;
+    }
+    .alert{
+        color: black;
+        background: #CFC493;
+        padding: 2rem;
+        margin: 0.5rem;
+        font-size:1.25rem
+    }
+    .nav-item{
+        font-size: 1.25rem;
+    }
+    #cards h4{
+        font-size: 2rem;
+    }
+    #cards h5{
+        font-size: 1.5rem;
+    }
+    #cards h6{
+        font-size: 1.2rem;
     }
 }
 
@@ -26,15 +45,26 @@ html{
     #navigation .container-fluid .navbar-brand{
         font-size:1.5rem;
     }
+    .alert{
+        color: black;
+        background: #CFC493;
+        padding: 1rem;
+        margin: 0.5rem;
+        font-size:1rem;
+    }
+    .nav-item{
+        font-size: 1rem;
+    }
 }
 
 #footer{
     padding: 1rem;
-    background: #005432;
+    background: #006747;
     margin-top: 2rem;
     text-align: center;
     color: white;
     font-size: 1.2rem;
+    
 }
 
 #footer img{
@@ -54,4 +84,17 @@ html{
 
 .collapse .navbar-nav .nav-item .nav-link:hover{
     color:#CFC493;
+}
+
+
+/* Rafael */
+.nav-tabs .nav-item .active {
+    background: #006747;
+    color:white;
+}
+
+/* Rafael */
+.nav-tabs .nav-item .active:hover {
+    background: #006747;
+    color:white;
 }

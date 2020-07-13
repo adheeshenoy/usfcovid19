@@ -24,12 +24,10 @@ navbar = dbc.NavbarSimple(
     expand = 'lg',
     id = 'navigation',
     dark=True,
-    # brand_style=dict(fontSize=30),
     style=dict(position='sticky',
                top=0,
                zIndex=99,
                borderBottom="solid 1px white"),
-    # className = "container-fullwidth"
     )
 
 # Alert
@@ -39,7 +37,6 @@ alert = html.Div([
             id="alert-fade",
             dismissable=True,
             is_open=True,
-            style = dict(color = 'black',background = const.LIGHT_GOLD, padding = '1rem', margin = '0.5rem')
         )
 ])
 
@@ -61,10 +58,11 @@ tampaCollapse = html.Div(
                 ]),
                 html.H5('''The data suggests that students on the Tampa Campus have a higher mean and a more distributed box
                                 plot. This could be due to a higher probability of students assembling in groups.''')
-                ])),
+                ]),style = dict(background = const.GREY)),
+            # rafael
             id="tampa-collapse",style = dict(textAlign = 'left')
         ),
-    ], 
+    ],
 )
 
 stPeteCollapse = html.Div(
@@ -104,6 +102,11 @@ tampaCardContent = [
             id='tampa-card-update',
             className="card-text",
         ),
+        html.H6(
+            "",
+            id='tampa-card-health-update',
+            className="card-text",
+        ),
     ], style = dict(background = 'white', color = 'black')),
 ]
 
@@ -137,7 +140,7 @@ cards = html.Div([
         ],
         className="mb-4",
         align = "stretch",
-        style = dict(marginTop = '2rem')
+        style = dict(marginTop = '1rem')
     )
 ],className = 'd-flex justify-content-center', id='cards')
 
@@ -262,11 +265,14 @@ tabs = dbc.Tabs(
     [
         dbc.Tab(tampaTab,
                 label="USF Tampa Campus",
-                label_style={"color": const.DARK_GREEN, 'font-size': '1.25rem'},
-                tab_id='tampa-tab'),
+                label_style={'font-size': '1.25rem'},
+                tab_id='tampa-tab',
+                ),
+        # Rafael
+        # tab_style = {'background':const.DARK_GREEN}
         dbc.Tab(stPeteTab,
                 label="USF St. Petersburg Campus",
-                label_style={"color": const.DARK_GREEN, 'font-size': '1.25rem'},
+                label_style={'font-size': '1.25rem'},
                 tab_id='st-pete-tab'),
     ],
     id='campus-tabs',
@@ -285,9 +291,11 @@ USFLayout = html.Div([
         totalScatterGraph,
         dailyBarGraph,
     ])]),
-    html.Div([tabs]),
+    # Rafael
+    html.Div([tabs], style = dict( background = 'white')),
     html.Div([
-        html.H1('Data Table', id = 'table-header', style = dict(color = const.DARK_GREEN, padding = '1rem')),
+        # Rafael
+        html.H1('Data Table', id = 'table-header', style = dict(color = 'white', padding = '1rem')),
         dash_table.DataTable(
             id = 'table',
             style_header={
@@ -300,7 +308,7 @@ USFLayout = html.Div([
         )
     ], className = 'container-fluid w-50', style = dict(textAlign = 'center')),
     html.Footer([
-        html.H5('Made by'),
+        html.H5('Made by,'),
         html.Div(
             [
                 html.A('Adheesh Shenoy', href = 'https://www.linkedin.com/in/adheeshenoy/', target = '__blank'),
@@ -314,5 +322,6 @@ USFLayout = html.Div([
                 html.Img(src = '/assets/LI-In-Bug.png'),
             ]
         ),
-    ], id = 'footer')
-])
+    ], id = 'footer', style = dict(borderTop =  "solid 1px white"))
+], style = dict( background = const.DARK_GREEN))
+# Rafael

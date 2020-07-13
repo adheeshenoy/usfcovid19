@@ -12,17 +12,15 @@ import pandas as pd
 import graphGenerator as gg
 from datetime import datetime, timedelta
 
-# Things to do
-# Talk about combining usf health with tampa
-# Talk about adding stats
-
-# Function names have _
-# Variable names and Callbacks are camelcase
-# Id is -
+# Function names follow snake case
+# Variable names and Callbacks are camel case
+# Ids use hypens
 
 app = dash.Dash(
     __name__,
-    external_stylesheets=[dbc.themes.FLATLY, '/assets/stylesheet.css'])
+    external_stylesheets=[dbc.themes.FLATLY, '/assets/stylesheet.css'],
+)
+# external_scripts=['/assets/pleaseRotate.js']
 
 server = app.server
 
@@ -36,9 +34,7 @@ app._favicon = '/assets/favicon.ico'
 #               })
 
 app.layout = html.Div(
-    [dcc.Store(id='data', data=data.__get_data()), layouts.USFLayout],
-    className='container-fullwidth',
-    style=dict(width='100%'))
+    [dcc.Store(id='data', data=data.__get_data()), layouts.USFLayout])
 
 # Functions and Callbacks
 
@@ -95,6 +91,7 @@ def __create_avg_string(employeeAvg, studentAvg, campus='Tampa'):
     Output('tampa-card-totalcases', 'children'),
     Output('tampa-card-health-totalcases', 'children'),
     Output('tampa-card-update', 'children'),
+    Output('tampa-card-health-update', 'children'),
     Output('st-pete-card-totalcases', 'children'),
     Output('st-pete-card-update', 'children'),
     Output('table', 'columns'),
@@ -103,18 +100,27 @@ def __create_avg_string(employeeAvg, studentAvg, campus='Tampa'):
 def updateCards(data):
     try:
         df = __string_to_df(data)
+
+        # Get for each location
         tampa = df[df['locations'] == 'Tampa']
         health = df[df['locations'] == 'Health']
+        stPete = df[df['locations'] == 'St. Pete']
+
+        # Get total cases for each location
         totalCasesHealth = str(health['cases'].sum())
         totalCasesTampa = str(tampa['cases'].sum())
-        stPete = df[df['locations'] == 'St. Pete']
         totalCasesStPete = str(stPete['cases'].sum())
+
+        # Get daily cases for each location
         dailyCasesTampa = tampa.groupby('dates', sort=False).sum()
         dailyCasesStPete = stPete.groupby('dates', sort=False).sum()
+        dailyCasesHealth = health.groupby('dates', sort=False).sum()
+
         df['dates'] = df['dates'].apply(lambda date: date.title())
-        return 'USF Tampa : ' + totalCasesTampa + ' cases','USF Health : ' + totalCasesHealth + ' cases', str(dailyCasesTampa['cases'][-1]) + ' case(s) (Date: ' + \
-            str(tampa['dates'][-1]).title() + ')','USF St. Petersburg : ' + totalCasesStPete + ' cases',\
-            str(dailyCasesStPete['cases'][-1]) + ' case(s) (Date: ' +\
+        return 'USF Tampa : ' + totalCasesTampa + ' cases','USF Health : ' + totalCasesHealth + ' cases', 'USF Tampa: ' + str(dailyCasesTampa['cases'][-1]) + ' case(s) (' + \
+            str(tampa['dates'][-1]).title() + ')','USF Health: ' + str(dailyCasesHealth['cases'][-1]) + ' case(s) (' + \
+            str(health['dates'][-1]).title() + ')','USF St. Petersburg : ' + totalCasesStPete + ' cases',\
+            str(dailyCasesStPete['cases'][-1]) + ' case(s) (' +\
             str(stPete['dates'][-1]).title() + ')',\
             [{'name': i.title() , 'id': i} for i in df.columns],\
             df.to_dict('records')
