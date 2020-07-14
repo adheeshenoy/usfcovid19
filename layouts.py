@@ -132,7 +132,7 @@ cards = html.Div([
             dbc.Col(dbc.Card(healthCardContent),
                     className='col-sm')
         ],
-        className="mb-4 w-50",
+        className="mb-4",
         align = "stretch",
         style = dict(marginTop = '1rem')
     )
