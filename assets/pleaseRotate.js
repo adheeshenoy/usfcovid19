@@ -146,11 +146,15 @@
             if (backdropElement) {
                 backdropElement.style["display"] = "block";
                 document.body.style.position = "fixed";
+                backdropElement.style['height'] = "100%";
+                backdropElement.style['width'] = "100%";
             }
         } else {
             if (backdropElement) {
                 backdropElement.style["display"] = "none";
                 document.body.style.position = "relative";
+                backdropElement.style["height"] = "0%";
+                backdropElement.style["width"] = "0%";
             }
         }
     }
