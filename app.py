@@ -188,7 +188,7 @@ def tampa_campus_graphs(data):
         employee = df[df['occupations'] == 'Employee']
 
         return dict(data = gg.generate_employee_student_daily_graph(student, employee, health), layout = gg.stacked_graph_layout('Student Vs. Employee Daily Cases (USF Tampa)')),\
-            dict(data = gg.generate_box_plot(student, employee, health), layout = gg.general_graph_layout('Quartile Representation Of Daily Cases Per Occupation (USF Tampa)')),\
+            dict(data = gg.generate_box_plot(student, employee, health), layout = gg.general_graph_layout('Box Plot For Daily Cases Per Occupation (USF Tampa)')),\
             dict(data = gg.generate_pie_plot(student, employee, health), layout = gg.general_graph_layout('Total Cases Percentage Per Occupation (USF Tampa)')),\
             dict(data = gg.generate_employee_student_total_graph(student, employee, health), layout = gg.general_graph_layout('Student Vs. Employee Total Cases (USF Tampa)')),\
             f'The USF Tampa campus has seen a {tampaResult:.2%} {tampaStatus} in cases in the last ten days. The number of cases went from {tampaLastValue} to {tampaMostRecent}.',\
@@ -226,7 +226,7 @@ def st_pete_campus_graphs(data):
         ) else f' The number of cases went from {lastValue} to {mostRecent}.'
 
         return dict(data = gg.generate_employee_student_daily_graph(student, employee), layout = gg.stacked_graph_layout('Student Vs. Employee Daily Cases (USF St. Pete)')),\
-            dict(data = gg.generate_box_plot(student, employee), layout = gg.general_graph_layout('Quartile Representation Of Daily Cases Per Occupation (USF St. Pete)')),\
+            dict(data = gg.generate_box_plot(student, employee), layout = gg.general_graph_layout('Box Plot For Daily Cases Per Occupation (USF St. Pete)')),\
             dict(data = gg.generate_pie_plot(student, employee), layout = gg.general_graph_layout('Total Cases Percentage Per Occupation (USF St. Pete)')),\
             dict(data = gg.generate_employee_student_total_graph(student, employee), layout = gg.general_graph_layout('Student Vs. Employee Total Cases (USF St. Pete)')),\
             f'The USF St. Petersburg campus has seen a {result:.2%} {status} in cases in the last ten days.' + show_cases,\
