@@ -62,20 +62,6 @@ tampaCollapse = html.Div(
     ],
 )
 
-stPeteCollapse = html.Div(
-    [
-        dbc.Button(
-            "What does this Graph mean?",
-            id="st-pete-collapse-button",
-            className="mb-3",
-            color="primary",
-        ),
-        dbc.Collapse(
-            dbc.Card(dbc.CardBody("St pete collapse")),
-            id="st-pete-collapse",
-        ),
-    ]
-)
 
 # Card overview
 # Tampa Card layout
@@ -88,17 +74,26 @@ tampaCardContent = [
             id='tampa-card-totalcases',
             className="card-text",
         ),
-        html.H5(
-            "",
-            id='tampa-card-health-totalcases',
-            className="card-text",
-        ),
         html.H4("Latest update", className="card-title"),
         html.H5(
             "",
             id='tampa-card-update',
             className="card-text",
         ),
+    ], style = dict(background = 'white', color = 'black')),
+]
+
+# Health
+healthCardContent = [
+    dbc.CardHeader(html.H4("USF Health"),style = dict(background = const.GREY, color = const.DARK_GREEN)),
+    dbc.CardBody([
+        html.H4("Total Cases", className="card-title"),
+        html.H5(
+            "",
+            id='tampa-card-health-totalcases',
+            className="card-text",
+        ),
+        html.H4("Latest update", className="card-title"),
         html.H5(
             "",
             id='tampa-card-health-update',
@@ -133,6 +128,8 @@ cards = html.Div([
             dbc.Col(dbc.Card(tampaCardContent),
                     className='col-sm'),
             dbc.Col(dbc.Card(stPeteCardContent),
+                    className='col-sm'),
+            dbc.Col(dbc.Card(healthCardContent),
                     className='col-sm')
         ],
         className="mb-4",
@@ -152,20 +149,34 @@ dailyBarGraph = dcc.Graph(id='daily-bar-graph',
 totalScatterGraph = dcc.Graph(id='total-scatter-graph',
                               config=dict(displaylogo=False,
                                           displayModeBar=False,
-                                          scrollZoom=False))
+                                          scrollZoom=False)) 
 
-# Tab Contents
-# Tampa tab contents
-tampaEmployeeStudentGraph = html.Div([
-    dcc.Graph(id='tampa-employee-student-health-pie',
+collapse = html.Div(
+    [
+        dbc.Button(
+            "What does this Graph mean?",
+            id="collapse-button",
+            className="mb-3",
+            color="primary",
+        ),
+        dbc.Collapse(
+            dbc.Card(dbc.CardBody(
+                                  id = 'collapse-text'),style = dict(background = const.GREY)),
+            id="collapse",style = dict(textAlign = 'left')
+        ),
+    ],
+)
+
+EmployeeStudentGraph = html.Div([
+    dcc.Graph(id='employee-student-health-pie',
               config=dict(displaylogo=False,
                           displayModeBar=False,
                           scrollZoom=False)),
-    dcc.Graph(id='tampa-employee-student-total-graph',
+    dcc.Graph(id='employee-student-total-graph',
               config=dict(displaylogo=False,
                           displayModeBar=False,
                           scrollZoom=False)),
-    dcc.Graph(id='tampa-employee-student-daily-graph',
+    dcc.Graph(id='employee-student-daily-graph',
               config=dict(
                         doubleClickDelay = 1,
                         displaylogo=False,
@@ -173,17 +184,17 @@ tampaEmployeeStudentGraph = html.Div([
                           scrollZoom=False)),
     html.Div(
         [
-            dcc.Graph(id='tampa-employee-student-health-box',
+            dcc.Graph(id='employee-student-health-box',
               config=dict(displaylogo=False,
                           displayModeBar=False,
                           scrollZoom=False)),
-            tampaCollapse,
+            collapse,
         ],style = dict(textAlign = 'center') 
     ),
 ])
 
-# Tampa Jumbotron
-tampaJumbotron = dbc.Jumbotron(
+
+generalJumbotron = dbc.Jumbotron(
     [
         dbc.Container(
             [
@@ -191,9 +202,8 @@ tampaJumbotron = dbc.Jumbotron(
                 html.Hr(className="my-2"),
                 html.Br(),
                 html.Ul([
-                    html.Li(html.H4('', id='tampa-overview')),
-                    html.Li(html.H4('', id='health-overview')),
-                    html.Li(html.H4('', id='tampa-daily-average')),
+                    html.Li(html.H4('', id='general-overview')),
+                    html.Li(html.H4('', id='general-daily-average')),
                 ]),
             ],
             fluid=True,
@@ -202,78 +212,29 @@ tampaJumbotron = dbc.Jumbotron(
     fluid=True,
 )
 
-# Tampa Tab Layout
-tampaTab = dbc.Card(dbc.CardBody([tampaJumbotron, tampaEmployeeStudentGraph]),
-                    className="mt-3")
-
-# St. Pete Tab layout
-stPeteEmployeeStudentGraph = html.Div([
-    dcc.Graph(id='st-pete-employee-student-health-pie',
-              config=dict(displaylogo=False,
-                          displayModeBar=False,
-                          scrollZoom=False)),
-    dcc.Graph(id='st-pete-employee-student-total-graph',
-              config=dict(displaylogo=False,
-                          displayModeBar=False,
-                          scrollZoom=False)),
-    dcc.Graph(id='st-pete-employee-student-daily-graph',
-              config=dict(
-                            doubleClickDelay = 1,
-                            displaylogo=False,
-                          displayModeBar=False,
-                          scrollZoom=False)),
-    html.Div(
-        [
-            dcc.Graph(id='st-pete-employee-student-health-box',
-              config=dict(displaylogo=False,
-                          displayModeBar=False,
-                          scrollZoom=False)),
-            # stPeteCollapse,
-        ],style = dict(textAlign = 'center') 
-    ),
-])
-
-# St. Pete Jumbotron
-stPeteJumbotron = dbc.Jumbotron(
+generalTabs = dbc.Card(
     [
-        dbc.Container(
-            [
-                html.H1("Summary", className="display-3", style = dict(color = const.DARK_GREEN)),
-                html.Hr(className="my-2"),
-                html.Br(),
-                html.Ul([
-                    html.Li(html.H4('', id='st-pete-overview')),
-                    html.Li(html.H4('', id='st-pete-daily-average')),
-                ])
-            ],
-            fluid=True,
-        )
-    ],
-    fluid=True,
+        dbc.CardHeader(
+            dbc.Tabs(
+                [
+                    dbc.Tab(label="USF Tampa", tab_id="tampa"),
+                    dbc.Tab(label="USF St. Petersburg", tab_id="st-pete"),
+                    dbc.Tab(label="USF Health", tab_id="health"),
+                    # dbc.Tab(label="USF Sarasota-Manatee", tab_id="sarasota-manatee"),
+                ],
+                id="general-tabs",
+                card=True,
+                active_tab="tampa",
+            )
+        ),
+        dbc.CardBody(
+            html.Div([
+                generalJumbotron,
+                EmployeeStudentGraph
+            ], className = "card-text mt-3")
+        ),
+    ]
 )
-
-# St Pete tab layout
-stPeteTab = dbc.Card(dbc.CardBody(
-    [stPeteJumbotron, stPeteEmployeeStudentGraph]),
-                     className="mt-3")
-
-# Tab creation
-tabs = dbc.Tabs(
-    [
-        dbc.Tab(tampaTab,
-                label="USF Tampa Campus",
-                label_style={'font-size': '1.25rem'},
-                tab_id='tampa-tab',
-                ),
-        dbc.Tab(stPeteTab,
-                label="USF St. Petersburg Campus",
-                label_style={'font-size': '1.25rem'},
-                tab_id='st-pete-tab'),
-    ],
-    id='campus-tabs',
-    active_tab="tampa-tab",
-)
-
 
 # Main Layout
 USFLayout = html.Div([
@@ -286,7 +247,8 @@ USFLayout = html.Div([
         totalScatterGraph,
         dailyBarGraph,
     ])]),
-    html.Div([tabs], style = dict( background = 'white')),
+    # html.Div([tabs], style = dict( background = 'white')),
+    html.Div([generalTabs], style = dict( background = 'white')),
     html.Div([
         html.H1('Data Table', id = 'table-header', style = dict(color = const.DARK_GREEN, padding = '1rem')),
         dash_table.DataTable(

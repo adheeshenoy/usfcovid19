@@ -6,7 +6,7 @@ import constants as const
 config = {'doubleClickDelay': 1}
 
 # Tracers
-def generate_daily_bar_graph(tampa, stPete):
+def generate_daily_bar_graph(tampa, stPete, health):
     tracerList = []
     tracerList.append(
         go.Bar(x=tampa['dates'],
@@ -18,13 +18,19 @@ def generate_daily_bar_graph(tampa, stPete):
                y=stPete['cases'],
                name='St. Petersburg',
                marker_color=const.LIGHT_GOLD))
+    tracerList.append(
+        go.Bar(x=health['dates'],
+               y=health['cases'],
+               name='USF Health',
+               marker_color=const.TEAL))
     return tracerList
 
 
-def generate_total_scatter_graph(tampa, stPete):
+def generate_total_scatter_graph(tampa, stPete, health):
     tracerList = []
     tampa['cases'] = tampa['cases'].cumsum()
     stPete['cases'] = stPete['cases'].cumsum()
+    health['cases'] = health['cases'].cumsum()
 
     tracerList.append(
         go.Scatter(x=tampa['dates'],
@@ -38,6 +44,12 @@ def generate_total_scatter_graph(tampa, stPete):
                    name='St. Petersburg',
                    mode='lines',
                    line=dict(color=const.LIGHT_GOLD, width=4)))
+    tracerList.append(
+        go.Scatter(x=health['dates'],
+                   y=health['cases'],
+                   name='USF Health',
+                   mode='lines',
+                   line=dict(color=const.TEAL, width=4)))
     return tracerList
 
 

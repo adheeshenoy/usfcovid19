@@ -25,8 +25,13 @@ def __parser(text):
         return 'St. Pete', 'Student', num
     elif 'st.' in text and ('employee' in text or 'employees' in text):
         return 'St. Pete', 'Employee', num
-    elif 'health' in text or 'medical' in text:
+    elif ('health' in text or 'medical'
+          in text) and ('employee' in text or 'employees' in text
+                        or 'resident' in text or 'residents' in text):
         return 'Health', 'Employee', num
+    elif ('health' in text or 'medical' in text) and ('student' in text
+                                                      or 'students' in text):
+        return 'Health', 'Student', num
     elif 'sarasota-manatee' in text and ('student' in text
                                          or 'students' in text):
         return 'Sarasota Manatee', 'Student', num

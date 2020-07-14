@@ -11,7 +11,7 @@
         onShow: function () { },
         forcePortrait: false,
         message: "Please Rotate Your Device",
-        subMessage: "(The data visualization is better on landscape mode)",
+        subMessage: "(or click to continue)",
         allowClickBypass: false,
         onlyMobile: true,
         zIndex: 1000,
@@ -152,6 +152,13 @@
             }
         } else {
             if (backdropElement) {
+
+                if (!visible && isPortrait()) {
+                    document.getElementsByTagName('meta')['viewport'].content = 'initial-scale=0, maximum-scale=1, user-scalable=no';
+                } else {
+                    document.getElementsByTagName('meta')['viewport'].content = 'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1';
+                }
+
                 backdropElement.style["display"] = "none";
                 document.body.style.position = "relative";
                 document.body.style.background = "#FFFFFF";

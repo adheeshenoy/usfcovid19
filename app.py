@@ -26,7 +26,6 @@ app = dash.Dash(
         "width=device-width, initial-scale=1, minimum-scale = 1, maximum-scale=1"
     }],
 )
-# external_scripts=['/assets/pleaseRotate.js']
 
 server = app.server
 
@@ -122,9 +121,9 @@ def updateCards(data):
         dailyCasesHealth = health.groupby('dates', sort=False).sum()
 
         df['dates'] = df['dates'].apply(lambda date: date.title())
-        return 'USF Tampa : ' + totalCasesTampa + ' cases','USF Health : ' + totalCasesHealth + ' cases', 'USF Tampa: ' + str(dailyCasesTampa['cases'][-1]) + ' case(s) (' + \
-            str(tampa['dates'][-1]).title() + ')','USF Health: ' + str(dailyCasesHealth['cases'][-1]) + ' case(s) (' + \
-            str(health['dates'][-1]).title() + ')','USF St. Petersburg : ' + totalCasesStPete + ' cases',\
+        return totalCasesTampa + ' cases', totalCasesHealth + ' cases', str(dailyCasesTampa['cases'][-1]) + ' case(s) (' + \
+            str(tampa['dates'][-1]).title() + ')', str(dailyCasesHealth['cases'][-1]) + ' case(s) (' + \
+            str(health['dates'][-1]).title() + ')',totalCasesStPete + ' cases',\
             str(dailyCasesStPete['cases'][-1]) + ' case(s) (' +\
             str(stPete['dates'][-1]).title() + ')',\
             [{'name': i.title() , 'id': i} for i in df.columns],\
@@ -141,105 +140,29 @@ def updateCards(data):
 def create_general_graphs(data):
     try:
         df = __string_to_df(data)
-        tampa = df[(df['locations'] == 'Tampa') |
-                   (df['locations'] == 'Health')].groupby(
+        tampa = df[(df['locations'] == 'Tampa')].groupby(
+                       'dates', sort=False, as_index=False).sum()
+        health = df[(df['locations'] == 'Health')].groupby(
                        'dates', sort=False, as_index=False).sum()
         stPete = df[df['locations'] == 'St. Pete'].groupby(
             'dates', sort=False, as_index=False).sum()
         tampa['dates'] = tampa['dates'].apply(
             lambda date: datetime.strptime(date, '%B %d %Y'))
+        health['dates'] = health['dates'].apply(
+            lambda date: datetime.strptime(date, '%B %d %Y'))
         stPete['dates'] = stPete['dates'].apply(
             lambda date: datetime.strptime(date, '%B %d %Y'))
-        return dict(data = gg.generate_daily_bar_graph(tampa,stPete), layout = gg.general_bar_layout('Daily Cases on USF Campuses')),\
-            dict(data = gg.generate_total_scatter_graph(tampa,stPete), layout = gg.general_graph_layout('Total Cases on USF Campuses'))
+        return dict(data = gg.generate_daily_bar_graph(tampa,stPete, health), layout = gg.general_bar_layout('Daily Cases on USF Campuses')),\
+            dict(data = gg.generate_total_scatter_graph(tampa,stPete, health), layout = gg.general_graph_layout('Total Cases on USF Campuses'))
     except Exception as e:
         print(e)
         raise PreventUpdate
 
 
-@app.callback([
-    Output('tampa-employee-student-daily-graph', 'figure'),
-    Output('tampa-employee-student-health-box', 'figure'),
-    Output('tampa-employee-student-health-pie', 'figure'),
-    Output('tampa-employee-student-total-graph', 'figure'),
-    Output('tampa-overview', 'children'),
-    Output('health-overview', 'children'),
-    Output('tampa-daily-average', 'children')
-], [Input('data', 'data')])
-def tampa_campus_graphs(data):
-    try:
-        df = __string_to_df(data)
-        df['dates'] = df['dates'].apply(
-            lambda date: datetime.strptime(date, '%B %d %Y'))
-
-        health = df[df['locations'] == 'Health']
-
-        df = df[(df['locations'] == 'Tampa')]
-
-        tampaEmployeeAvg, tampaStudentAvg = __get_daily_average(df)
-        # healthEmployeeAvg = health['cases'].mean()
-
-        tampaResult, tampaStatus, tampaMostRecent, tampaLastValue = __get_percent(
-            df)
-        healthResult, healthStatus, healthMostRecent, healthLastValue = __get_percent(
-            health)
-
-        student = df[df['occupations'] == 'Student']
-        employee = df[df['occupations'] == 'Employee']
-
-        return dict(data = gg.generate_employee_student_daily_graph(student, employee, health), layout = gg.stacked_graph_layout('Student Vs. Employee Daily Cases (USF Tampa)')),\
-            dict(data = gg.generate_box_plot(student, employee, health), layout = gg.general_graph_layout('Box Plot For Daily Cases Per Occupation (USF Tampa)')),\
-            dict(data = gg.generate_pie_plot(student, employee, health), layout = gg.general_graph_layout('Total Cases Percentage Per Occupation (USF Tampa)')),\
-            dict(data = gg.generate_employee_student_total_graph(student, employee, health), layout = gg.general_graph_layout('Student Vs. Employee Total Cases (USF Tampa)')),\
-            f'The USF Tampa campus has seen a {tampaResult:.2%} {tampaStatus} in cases in the last ten days. The number of cases went from {tampaLastValue} to {tampaMostRecent}.',\
-            f'USF Health has seen a {healthResult:.2%} {healthStatus} in cases in the last ten days. The number of cases went from {healthLastValue} to {healthMostRecent}.',\
-            __create_avg_string(tampaEmployeeAvg, tampaStudentAvg)
-
-    except Exception as e:
-        print('campus_graph: ', e)
-        raise PreventUpdate
-
-
-@app.callback([
-    Output('st-pete-employee-student-daily-graph', 'figure'),
-    Output('st-pete-employee-student-health-box', 'figure'),
-    Output('st-pete-employee-student-health-pie', 'figure'),
-    Output('st-pete-employee-student-total-graph', 'figure'),
-    Output('st-pete-overview', 'children'),
-    Output('st-pete-daily-average', 'children')
-], [Input('data', 'data')])
-def st_pete_campus_graphs(data):
-    try:
-        df = __string_to_df(data)
-        df = df[(df['locations'] == 'St. Pete')]
-        df['dates'] = df['dates'].apply(
-            lambda date: datetime.strptime(date, '%B %d %Y'))
-
-        result, status, mostRecent, lastValue = __get_percent(df)
-        EmployeeAvg, StudentAvg = __get_daily_average(df)
-
-        student = df[df['occupations'] == 'Student']
-        employee = df[df['occupations'] == 'Employee']
-
-        show_cases = '' if (
-            lastValue == mostRecent
-        ) else f' The number of cases went from {lastValue} to {mostRecent}.'
-
-        return dict(data = gg.generate_employee_student_daily_graph(student, employee), layout = gg.stacked_graph_layout('Student Vs. Employee Daily Cases (USF St. Pete)')),\
-            dict(data = gg.generate_box_plot(student, employee), layout = gg.general_graph_layout('Box Plot For Daily Cases Per Occupation (USF St. Pete)')),\
-            dict(data = gg.generate_pie_plot(student, employee), layout = gg.general_graph_layout('Total Cases Percentage Per Occupation (USF St. Pete)')),\
-            dict(data = gg.generate_employee_student_total_graph(student, employee), layout = gg.general_graph_layout('Student Vs. Employee Total Cases (USF St. Pete)')),\
-            f'The USF St. Petersburg campus has seen a {result:.2%} {status} in cases in the last ten days.' + show_cases,\
-            __create_avg_string(EmployeeAvg, StudentAvg, 'St. Petersburg')
-    except Exception as e:
-        print('campus_graph: ', e)
-        raise PreventUpdate
-
-
 @app.callback(
-    Output("tampa-collapse", "is_open"),
-    [Input("tampa-collapse-button", "n_clicks")],
-    [State("tampa-collapse", "is_open")],
+    Output("collapse", "is_open"),
+    [Input("collapse-button", "n_clicks")],
+    [State("collapse", "is_open")],
 )
 def toggle_collapse(n, is_open):
     if n:
@@ -247,15 +170,115 @@ def toggle_collapse(n, is_open):
     return is_open
 
 
-# @app.callback(
-#     Output("st-pete-collapse", "is_open"),
-#     [Input("st-pete-collapse-button", "n_clicks")],
-#     [State("st-pete-collapse", "is_open")],
-# )
-# def st_pete_toggle_collapse(n, is_open):
-#     if n:
-#         return not is_open
-#     return is_open
+@app.callback([
+    Output('employee-student-daily-graph', 'figure'),
+    Output('employee-student-health-box', 'figure'),
+    Output('employee-student-health-pie', 'figure'),
+    Output('employee-student-total-graph', 'figure'),
+    Output('general-overview', 'children'),
+    Output('general-daily-average', 'children'),
+    Output('collapse-text', 'children')
+], [Input('data', 'data'),
+    Input('general-tabs', 'active_tab')])
+def campus_graphs(data, active_tab):
+    try:
+        # Converting string to data frame
+        df = __string_to_df(data)
+
+        if active_tab == 'tampa':
+            return tampa_tab_content(df)
+        elif active_tab == 'st-pete':
+            return st_pete_tab_content(df)
+        elif active_tab == 'health':
+            return health_tab_content(df)
+    except Exception as e:
+        print('Campus Graph: ', e)
+        raise PreventUpdate
+
+
+def tampa_tab_content(df):
+    tampa = df[df['locations'] == 'Tampa']
+    tampa['dates'] = tampa['dates'].apply(
+        lambda date: datetime.strptime(date, '%B %d %Y'))
+    employeeAvg, studentAvg = __get_daily_average(tampa)
+    result, status, mostRecent, lastValue = __get_percent(tampa)
+    student = tampa[tampa['occupations'] == 'Student']
+    employee = tampa[tampa['occupations'] == 'Employee']
+
+    return dict(data = gg.generate_employee_student_daily_graph(student, employee), layout = gg.stacked_graph_layout('Student Vs. Employee Daily Cases (USF Tampa)')),\
+        dict(data = gg.generate_box_plot(student, employee), layout = gg.general_graph_layout('Box Plot For Daily Cases Per Occupation (USF Tampa)')),\
+        dict(data = gg.generate_pie_plot(student, employee), layout = gg.general_graph_layout('Total Cases Percentage Per Occupation (USF Tampa)')),\
+        dict(data = gg.generate_employee_student_total_graph(student, employee), layout = gg.general_graph_layout('Student Vs. Employee Total Cases (USF Tampa)')),\
+        f'The USF Tampa campus has seen a {result:.2%} {status} in cases in the last ten days. The number of cases went from {lastValue} to {mostRecent}.',\
+        __create_avg_string(employeeAvg, studentAvg), tampa_collapse()
+        
+def tampa_collapse():
+    return [
+                html.H5('The plot represents the distribution of Covid-19 cases through their quartiles'),
+                html.Ul([
+                    html.Li(html.H6('The number of cases per day for an occupation is concentrated between the lower(Q1) and upper(Q3) quartiles.')),
+                    html.Li(html.H6('The mean represents the average number of daily reported cases for the occupation.')),
+                ]),
+                html.H5('''The data suggests that students on the Tampa Campus have a higher mean and a more distributed box
+                                plot. This could be due to a higher probability of students assembling in groups.''')
+                ]
+
+
+def st_pete_tab_content(df):
+    st_pete = df[df['locations'] == 'St. Pete']
+    st_pete['dates'] = st_pete['dates'].apply(
+        lambda date: datetime.strptime(date, '%B %d %Y'))
+    employeeAvg, studentAvg = __get_daily_average(st_pete)
+    result, status, mostRecent, lastValue = __get_percent(st_pete)
+    student = st_pete[st_pete['occupations'] == 'Student']
+    employee = st_pete[st_pete['occupations'] == 'Employee']
+
+    return dict(data = gg.generate_employee_student_daily_graph(student, employee), layout = gg.stacked_graph_layout('Student Vs. Employee Daily Cases (USF St. Pete)')),\
+        dict(data = gg.generate_box_plot(student, employee), layout = gg.general_graph_layout('Box Plot For Daily Cases Per Occupation (USF St. Pete)')),\
+        dict(data = gg.generate_pie_plot(student, employee), layout = gg.general_graph_layout('Total Cases Percentage Per Occupation (USF St. Pete)')),\
+        dict(data = gg.generate_employee_student_total_graph(student, employee), layout = gg.general_graph_layout('Student Vs. Employee Total Cases (USF St. Pete)')),\
+        f'The USF St. Pete campus has seen a {result:.2%} {status} in cases in the last ten days. The number of cases went from {lastValue} to {mostRecent}.',\
+        __create_avg_string(employeeAvg, studentAvg, 'St Pete'), st_pete_collapse()
+        
+def st_pete_collapse():
+    return [
+                html.H5('The plot represents the distribution of Covid-19 cases through their quartiles'),
+                html.Ul([
+                    html.Li(html.H6('The number of cases per day for an occupation is concentrated between the lower(Q1) and upper(Q3) quartiles.')),
+                    html.Li(html.H6('The mean represents the average number of daily reported cases for the occupation.')),
+                ])
+                # html.H5('''The data suggests that students on the Tampa Campus have a higher mean and a more distributed box
+                #                 plot. This could be due to a higher probability of students assembling in groups.''')
+                ]
+
+
+def health_tab_content(df):
+    health = df[df['locations'] == 'Health']
+    health['dates'] = health['dates'].apply(
+        lambda date: datetime.strptime(date, '%B %d %Y'))
+    EmployeeAvg = health['cases'].mean()
+    employeeAvg, studentAvg = __get_daily_average(health)
+    result, status, mostRecent, lastValue = __get_percent(health)
+    student = health[health['occupations'] == 'Student']
+    employee = health[health['occupations'] == 'Employee']
+    return dict(data = gg.generate_employee_student_daily_graph(student, employee), layout = gg.stacked_graph_layout('Student Vs. Employee Daily Cases (USF Health)')),\
+        dict(data = gg.generate_box_plot(student, employee), layout = gg.general_graph_layout('Box Plot For Daily Cases Per Occupation (USF Health)')),\
+        dict(data = gg.generate_pie_plot(student, employee), layout = gg.general_graph_layout('Total Cases Percentage Per Occupation (USF Health)')),\
+        dict(data = gg.generate_employee_student_total_graph(student, employee), layout = gg.general_graph_layout('Student Vs. Employee Total Cases (USF Health)')),\
+        f'USF Health has seen a {result:.2%} {status} in cases in the last ten days. The number of cases went from {lastValue} to {mostRecent}.',\
+        __create_avg_string(employeeAvg, studentAvg, 'Health'), health_collapse()
+        
+def health_collapse():
+     return [
+                html.H5('The plot represents the distribution of Covid-19 cases through their quartiles'),
+                html.Ul([
+                    html.Li(html.H6('The number of cases per day for an occupation is concentrated between the lower(Q1) and upper(Q3) quartiles.')),
+                    html.Li(html.H6('The mean represents the average number of daily reported cases for the occupation.')),
+                ]),
+                html.H5('''The data suggests that the employees working for USF Health have a higher mean and a more distributed box
+                                plot. This could be due to a higher probability of exposure to infected patients.''')
+                ]
+
 
 app.scripts.config.serve_locally = False
 app.scripts.append_script({
