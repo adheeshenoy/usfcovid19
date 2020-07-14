@@ -7,7 +7,7 @@ import constants as const
 # Navigation Bar
 navbar = dbc.NavbarSimple(
     children=[
-        dbc.NavItem(dbc.NavLink("Overview", href="#", external_link=True)),
+        dbc.NavItem(dbc.NavLink("USF Covid-19 Page", href="https://www.usf.edu/coronavirus/", external_link=True, target = '__blank')),
         dbc.NavItem(
             dbc.NavLink("Campus Information",
                         href="#daily-bar-graph",
