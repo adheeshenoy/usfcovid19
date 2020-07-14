@@ -11,7 +11,7 @@
         onShow: function () { },
         forcePortrait: false,
         message: "Please Rotate Your Device",
-        subMessage: "(or click to continue)",
+        subMessage: "(or tap here to continue)",
         allowClickBypass: true,
         onlyMobile: true,
         zIndex: 1000,
