@@ -19,6 +19,12 @@ from datetime import datetime, timedelta
 app = dash.Dash(
     __name__,
     external_stylesheets=[dbc.themes.FLATLY, '/assets/stylesheet.css'],
+    meta_tags=[{
+        "name":
+        "viewport",
+        "content":
+        "width=device-width, initial-scale=1, minimum-scale = 1, maximum-scale=1"
+    }],
 )
 # external_scripts=['/assets/pleaseRotate.js']
 
