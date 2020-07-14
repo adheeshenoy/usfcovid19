@@ -146,6 +146,7 @@
             if (backdropElement) {
                 backdropElement.style["display"] = "block";
                 document.body.style.position = "fixed";
+                document.body.style.background = "#006747";
                 backdropElement.style['height'] = "100%";
                 backdropElement.style['width'] = "100%";
             }
@@ -153,6 +154,7 @@
             if (backdropElement) {
                 backdropElement.style["display"] = "none";
                 document.body.style.position = "relative";
+                document.body.style.background = "#FFFFFF";
                 backdropElement.style["height"] = "0%";
                 backdropElement.style["width"] = "0%";
             }
