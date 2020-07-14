@@ -12,7 +12,7 @@
         forcePortrait: false,
         message: "Please Rotate Your Device",
         subMessage: "(or click to continue)",
-        allowClickBypass: True,
+        allowClickBypass: true,
         onlyMobile: true,
         zIndex: 1000,
         iconNode: null
