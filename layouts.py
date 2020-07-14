@@ -24,9 +24,7 @@ navbar = dbc.NavbarSimple(
     expand = 'lg',
     id = 'navigation',
     dark=True,
-    style=dict(position='sticky',
-               top=0,
-               zIndex=99,
+    style=dict(overflowX = 'hidden',
                borderBottom="solid 1px white"),
     )
 
@@ -59,7 +57,6 @@ tampaCollapse = html.Div(
                 html.H5('''The data suggests that students on the Tampa Campus have a higher mean and a more distributed box
                                 plot. This could be due to a higher probability of students assembling in groups.''')
                 ]),style = dict(background = const.GREY)),
-            # rafael
             id="tampa-collapse",style = dict(textAlign = 'left')
         ),
     ],
@@ -85,24 +82,24 @@ stPeteCollapse = html.Div(
 tampaCardContent = [
     dbc.CardHeader(html.H4("Tampa Campus"),style = dict(background = const.GREY, color = const.DARK_GREEN)),
     dbc.CardBody([
-        html.H5("Total Cases", className="card-title"),
-        html.H6(
+        html.H4("Total Cases", className="card-title"),
+        html.H5(
             "",
             id='tampa-card-totalcases',
             className="card-text",
         ),
-        html.H6(
+        html.H5(
             "",
             id='tampa-card-health-totalcases',
             className="card-text",
         ),
-        html.H5("Latest update", className="card-title"),
-        html.H6(
+        html.H4("Latest update", className="card-title"),
+        html.H5(
             "",
             id='tampa-card-update',
             className="card-text",
         ),
-        html.H6(
+        html.H5(
             "",
             id='tampa-card-health-update',
             className="card-text",
@@ -114,14 +111,14 @@ tampaCardContent = [
 stPeteCardContent = [
     dbc.CardHeader(html.H4("St. Petersburg Campus"),  style = dict(background = const.GREY, color = const.DARK_GREEN)),
     dbc.CardBody([
-        html.H5("Total Cases", className="card-title"),
-        html.H6(
+        html.H4("Total Cases", className="card-title"),
+        html.H5(
             "",
             id='st-pete-card-totalcases',
             className="card-text",
         ),
-        html.H5("Latest update", className="card-title"),
-        html.H6(
+        html.H4("Latest update", className="card-title"),
+        html.H5(
             "",
             id='st-pete-card-update',
             className="card-text",
@@ -135,7 +132,7 @@ cards = html.Div([
         [
             dbc.Col(dbc.Card(tampaCardContent),
                     className='col-sm'),
-            dbc.Col(dbc.Card(stPeteCardContent, style = dict(color = 'black')),
+            dbc.Col(dbc.Card(stPeteCardContent),
                     className='col-sm')
         ],
         className="mb-4",
@@ -268,8 +265,6 @@ tabs = dbc.Tabs(
                 label_style={'font-size': '1.25rem'},
                 tab_id='tampa-tab',
                 ),
-        # Rafael
-        # tab_style = {'background':const.DARK_GREEN}
         dbc.Tab(stPeteTab,
                 label="USF St. Petersburg Campus",
                 label_style={'font-size': '1.25rem'},
@@ -291,11 +286,9 @@ USFLayout = html.Div([
         totalScatterGraph,
         dailyBarGraph,
     ])]),
-    # Rafael
     html.Div([tabs], style = dict( background = 'white')),
     html.Div([
-        # Rafael
-        html.H1('Data Table', id = 'table-header', style = dict(color = 'white', padding = '1rem')),
+        html.H1('Data Table', id = 'table-header', style = dict(color = const.DARK_GREEN, padding = '1rem')),
         dash_table.DataTable(
             id = 'table',
             style_header={
@@ -315,7 +308,6 @@ USFLayout = html.Div([
                 html.Img(src = '/assets/LI-In-Bug.png'),
             ]
         ),
-        # html.H6('&'),
         html.Div(
             [
                 html.A('Rafael Flores Souza', href = 'https://www.linkedin.com/in/rafael-flores-souza/', target = '__blank'),
@@ -323,5 +315,4 @@ USFLayout = html.Div([
             ]
         ),
     ], id = 'footer', style = dict(borderTop =  "solid 1px white"))
-], style = dict( background = const.DARK_GREEN))
-# Rafael
+])

@@ -45,7 +45,6 @@ def __string_to_df(string):
         return pd.DataFrame(ast.literal_eval(string))
 
 
-# Rafael add day here as a parameter
 def __get_percent(df, days=10):
     '''Helper function that returns percentage of increase in cases in the specified
     number of days. 

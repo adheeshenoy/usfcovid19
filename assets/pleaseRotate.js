@@ -11,8 +11,8 @@
         onShow: function () { },
         forcePortrait: false,
         message: "Please Rotate Your Device",
-        subMessage: "(or click to continue)",
-        allowClickBypass: true,
+        subMessage: "(The data visualization is better on landscape mode)",
+        allowClickBypass: false,
         onlyMobile: true,
         zIndex: 1000,
         iconNode: null
@@ -20,10 +20,10 @@
 
     var cssRules = [
         "#pleaserotate-graphic { margin-left: 50px; width: 200px; animation: pleaserotateframes ease 2s; animation-iteration-count: infinite; transform-origin: 50% 50%; -webkit-animation: pleaserotateframes ease 2s; -webkit-animation-iteration-count: infinite; -webkit-transform-origin: 50% 50%; -moz-animation: pleaserotateframes ease 2s; -moz-animation-iteration-count: infinite; -moz-transform-origin: 50% 50%; -ms-animation: pleaserotateframes ease 2s; -ms-animation-iteration-count: infinite; -ms-transform-origin: 50% 50%; }",
-        "#pleaserotate-backdrop { background-color: white; top: 0; left: 0; position: fixed; width: 100%; height: 100%; }",
+        "#pleaserotate-backdrop { background-color: #006747; top: 0; left: 0; position: fixed; width: 100%; height: 100%; }",
         "#pleaserotate-container { width: 300px; position: absolute; top: 50%; left: 50%; margin-right: -50%; transform: translate(-50%, -50%); -webkit-transform: translate(-50%, -50%); }",
-        "#pleaserotate-message { margin-top: 20px; font-size: 1.3em; text-align: center; font-family: Verdana, Geneva, sans-serif; text-transform: uppercase }",
-        "#pleaserotate-message small { opacity: .5; display: block; font-size: .6em}"
+        "#pleaserotate-message { color: white; margin-top: 2em; font-size: 1.3em; text-align: center; text-transform: uppercase }",
+        "#pleaserotate-message small {color: white; opacity: .8; display: block; font-size: .6em}"
     ];
 
     var cssKeyframeRules = [
@@ -119,6 +119,7 @@
         svg.setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:xlink', 'http://www.w3.org/1999/xlink');
         svg.setAttribute('id', 'pleaserotate-graphic');
         svg.setAttribute('viewBox', '0 0 250 250');
+        svg.setAttribute('fill', '#CFC493');
 
         var group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         group.setAttribute('id', 'pleaserotate-graphic-path');
@@ -144,11 +145,12 @@
         if (visible) {
             if (backdropElement) {
                 backdropElement.style["display"] = "block";
+                document.body.style.position = "fixed";
             }
         } else {
             if (backdropElement) {
                 backdropElement.style["display"] = "none";
-
+                document.body.style.position = "relative";
             }
         }
     }
