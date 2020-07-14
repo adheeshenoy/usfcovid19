@@ -132,7 +132,7 @@ cards = html.Div([
             dbc.Col(dbc.Card(healthCardContent),
                     className='col-sm')
         ],
-        className="mb-4",
+        className="mb-4 w-50",
         align = "stretch",
         style = dict(marginTop = '1rem')
     )
@@ -198,7 +198,7 @@ generalJumbotron = dbc.Jumbotron(
     [
         dbc.Container(
             [
-                html.H1("Summary", className="display-3", style = dict(color = const.DARK_GREEN)),
+                html.H1("Summary", className="display-5", style = dict(color = const.DARK_GREEN)),
                 html.Hr(className="my-2"),
                 html.Br(),
                 html.Ul([
