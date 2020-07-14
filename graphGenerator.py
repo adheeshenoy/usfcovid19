@@ -50,7 +50,7 @@ def generate_employee_student_total_graph(student, employee, health=None):
         tracerList.append(
             go.Scatter(x=health['dates'],
                        y=health['cases'],
-                       name='USF Health Employee',
+                       name='Health Employee',
                        mode = 'lines',
                        line = dict(color = const.TEAL, width = 4)))
     tracerList.append(
@@ -70,7 +70,7 @@ def generate_employee_student_daily_graph(student, employee, health=None):
         tracerList.append(
             go.Bar(x=health['dates'],
                    y=health['cases'],
-                   name='USF Health Employee', marker_color = const.TEAL))
+                   name='Health Employee', marker_color = const.TEAL))
     return tracerList
 
 
@@ -91,7 +91,7 @@ def generate_box_plot(student, employee, health=None):
     if health is not None:
         tracerList.append(
             go.Box(y=health['cases'],
-                   name='USF Health Employee',
+                   name='Health Employee',
                    boxpoints='all',
                    boxmean=True,
                    marker_color = const.TEAL))
@@ -105,7 +105,7 @@ def generate_pie_plot(student, employee, health=None):
             int(employee['cases'].sum()),
             int(health['cases'].sum())
         ]
-        labels = ['Student', 'Employee', 'USF Health Employee']
+        labels = ['Student', 'Employee', 'Health Employee']
         colors = [const.STORM, const.APPLE, const.TEAL]
     else:
         values = [int(student['cases'].sum()), int(employee['cases'].sum())]
