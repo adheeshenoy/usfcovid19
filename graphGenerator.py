@@ -3,8 +3,6 @@ import plotly.graph_objs as go
 from datetime import datetime
 import constants as const
 
-config = {'doubleClickDelay': 1}
-
 # Tracers
 def generate_daily_bar_graph(tampa, stPete, health):
     tracerList = []
@@ -22,7 +20,7 @@ def generate_daily_bar_graph(tampa, stPete, health):
         go.Bar(x=health['dates'],
                y=health['cases'],
                name='USF Health',
-               marker_color=const.TEAL))
+               marker_color=const.SEAGLASS))
     return tracerList
 
 
@@ -49,22 +47,22 @@ def generate_total_scatter_graph(tampa, stPete, health):
                    y=health['cases'],
                    name='USF Health',
                    mode='lines',
-                   line=dict(color=const.TEAL, width=4)))
+                   line=dict(color=const.SEAGLASS, width=4)))
     return tracerList
 
 
-def generate_employee_student_total_graph(student, employee, health=None):
+def generate_employee_student_total_graph(student, employee):
     tracerList = []
     student['cases'] = student['cases'].cumsum()
     employee['cases'] = employee['cases'].cumsum()
-    if health is not None:
-        health['cases'] = health['cases'].cumsum()
-        tracerList.append(
-            go.Scatter(x=health['dates'],
-                       y=health['cases'],
-                       name='Health Employee',
-                       mode = 'lines',
-                       line = dict(color = const.TEAL, width = 4)))
+    # if health is not None:
+    #     health['cases'] = health['cases'].cumsum()
+    #     tracerList.append(
+    #         go.Scatter(x=health['dates'],
+    #                    y=health['cases'],
+    #                    name='Health Employee',
+    #                    mode = 'lines',
+    #                    line = dict(color = const.TEAL, width = 4)))
     tracerList.append(
         go.Scatter(x=student['dates'], y=student['cases'], name='Student',mode = 'lines', line = dict(color = const.STORM, width = 4)))
     tracerList.append(
@@ -72,21 +70,21 @@ def generate_employee_student_total_graph(student, employee, health=None):
     return tracerList
 
 
-def generate_employee_student_daily_graph(student, employee, health=None):
+def generate_employee_student_daily_graph(student, employee):
     tracerList = []
     tracerList.append(
         go.Bar(x=student['dates'], y=student['cases'], name='Student', marker_color = const.STORM))
     tracerList.append(
         go.Bar(x=employee['dates'], y=employee['cases'], name='Employee', marker_color = const.APPLE))
-    if health is not None:
-        tracerList.append(
-            go.Bar(x=health['dates'],
-                   y=health['cases'],
-                   name='Health Employee', marker_color = const.TEAL))
+    # if health is not None:
+    #     tracerList.append(
+    #         go.Bar(x=health['dates'],
+    #                y=health['cases'],
+    #                name='Health Employee', marker_color = const.TEAL))
     return tracerList
 
 
-def generate_box_plot(student, employee, health=None):
+def generate_box_plot(student, employee):
     tracerList = []
     tracerList.append(
         go.Box(y=student['cases'],
@@ -100,29 +98,28 @@ def generate_box_plot(student, employee, health=None):
                boxpoints='all',
                boxmean=True,
                marker_color = const.APPLE))
-    if health is not None:
-        tracerList.append(
-            go.Box(y=health['cases'],
-                   name='Health Employee',
-                   boxpoints='all',
-                   boxmean=True,
-                   marker_color = const.TEAL))
+    # if health is not None:
+    #     tracerList.append(
+    #         go.Box(y=health['cases'],
+    #                name='Health Employee',
+    #                boxpoints='all',
+    #                boxmean=True,
+    #                marker_color = const.TEAL))
     return tracerList
 
 
-def generate_pie_plot(student, employee, health=None):
-    if health is not None:
-        values = [
-            int(student['cases'].sum()),
-            int(employee['cases'].sum()),
-            int(health['cases'].sum())
-        ]
-        labels = ['Student', 'Employee', 'Health Employee']
-        colors = [const.STORM, const.APPLE, const.TEAL]
-    else:
-        values = [int(student['cases'].sum()), int(employee['cases'].sum())]
-        labels = ['Student', 'Employee']
-        colors = [const.STORM, const.APPLE]
+def generate_pie_plot(student, employee):
+    # if health is not None:
+    #     values = [
+    #         int(student['cases'].sum()),
+    #         int(employee['cases'].sum()),
+    #         int(health['cases'].sum())
+    #     ]
+    #     labels = ['Student', 'Employee', 'Health Employee']
+    #     colors = [const.STORM, const.APPLE, const.TEAL]
+    values = [int(student['cases'].sum()), int(employee['cases'].sum())]
+    labels = ['Student', 'Employee']
+    colors = [const.STORM, const.APPLE]
     return [
         go.Pie(labels=labels,
                values=values,

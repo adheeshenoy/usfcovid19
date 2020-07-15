@@ -69,8 +69,8 @@ def __get_data():
             dataDict.get('locations').append(location)
             dataDict.get('occupations').append(occupation)
             dataDict.get('cases').append(numOfCases)
-            dataDict.get('dates').append(date + ' ' +
-                                         str(datetime.today().year))
+            dataDict.get('dates').append(
+                (date + ' ' + str(datetime.today().year)).title())
     # + ' ' +str(datetime.today().year)
     # df['dates'] = df['dates'].apply(lambda date: datetime.strptime(date, '%B %d %Y'))
     df = pd.DataFrame(dataDict)

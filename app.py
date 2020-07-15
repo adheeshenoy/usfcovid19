@@ -43,22 +43,20 @@ app.layout = html.Div(
 
 # Functions and Callbacks
 
-
 def __string_to_df(string):
-    '''Helper function that returns the dataframe from a string'''
+    '''Helper function that converts a string into a dataframe'''
     if isinstance(string, str):
         return pd.DataFrame(ast.literal_eval(string))
 
 
-def __get_percent(df, days=10):
+def __get_percent(df, days=14):
     '''Helper function that returns percentage of increase in cases in the specified
     number of days. 
     Output: result (percentage), status(increase or decrease), mostRecent value,
     Last updated value.'''
     lastTenDays = df.groupby('dates', sort=False, as_index=False).sum()
     lastTenDays['cases'] = lastTenDays['cases'].cumsum()
-    lastTenDays = lastTenDays.tail(11)
-    lastValue = 0
+    lastTenDays = lastTenDays.tail(days+1)
     while True:
         dayLimit = datetime.strftime(datetime.today() - timedelta(days=days),
                                      '%Y-%m-%d')
@@ -81,53 +79,78 @@ def __get_percent(df, days=10):
 
 
 def __get_daily_average(df):
+    '''returns the daily average for each occupation'''
     temp = df.groupby('occupations').mean()
     return temp['cases'][0], temp['cases'][1]
 
 
 def __create_avg_string(employeeAvg, studentAvg, campus='Tampa'):
+    '''returns a string that specifies the daily average for student vs employees'''
     ratio = studentAvg / employeeAvg
     return f'Per day, on average, {ratio:.2} times the number of students are tested positive compared to USF {campus} employees.'\
             if(ratio != 1.0) else f'Per day, on average, the same number of students are tested positive as USF {campus} employees.'
 
+def __get_df_by_location(df, locations = ['Tampa','St. Pete', 'Health']):
+    '''Divides a dataframe containing multiple locations based on location'''
+    dfs = []
+    for location in locations:
+        dfs.append(df[df['locations'] == location])
+    return dfs
+
+def __get_total_cases_by_location(dfByLocation):
+    '''Returns a list of total cases for each location'''
+    totalCases = []
+    for df in dfByLocation:
+        totalCases.append(str(df['cases'].sum()))
+    return totalCases
+
+def __get_daily_cases_by_location(dfByLocation):
+    '''Returns a list of daily cases for each location'''
+    dailyCases = []
+    for df in dfByLocation:
+        dailyCases.append(df.groupby('dates', sort=False, as_index = False).sum())
+    return dailyCases
+
+def __create_daily_cases_string(dailyCases):
+    '''Returns a string to print for daily cases'''
+    text = str(dailyCases['cases'].iloc[-1]) + ' cases (' if dailyCases['cases'].iloc[-1] > 1 else\
+        str(dailyCases['cases'].iloc[-1]) + ' case (' 
+    return text + str(dailyCases['dates'].iloc[-1]) + ')'
+
+def __generate_data_table_information(df):
+    '''Returns the information needed for generating the data table'''
+    return ([{'name': i, 'id': i} for i in df.columns],df.to_dict('records'))
 
 @app.callback([
     Output('tampa-card-totalcases', 'children'),
     Output('tampa-card-health-totalcases', 'children'),
+    Output('st-pete-card-totalcases', 'children'),
     Output('tampa-card-update', 'children'),
     Output('tampa-card-health-update', 'children'),
-    Output('st-pete-card-totalcases', 'children'),
     Output('st-pete-card-update', 'children'),
     Output('table', 'columns'),
     Output('table', 'data')
 ], [Input('data', 'data')])
-def updateCards(data):
+def updateCardsAndDataTable(data):
     try:
         df = __string_to_df(data)
 
         # Get for each location
-        tampa = df[df['locations'] == 'Tampa']
-        health = df[df['locations'] == 'Health']
-        stPete = df[df['locations'] == 'St. Pete']
+        dfByLocation = __get_df_by_location(df)
 
         # Get total cases for each location
-        totalCasesHealth = str(health['cases'].sum())
-        totalCasesTampa = str(tampa['cases'].sum())
-        totalCasesStPete = str(stPete['cases'].sum())
+        totalCasesTampa, totalCasesStPete, totalCasesHealth = __get_total_cases_by_location(dfByLocation)
 
         # Get daily cases for each location
-        dailyCasesTampa = tampa.groupby('dates', sort=False).sum()
-        dailyCasesStPete = stPete.groupby('dates', sort=False).sum()
-        dailyCasesHealth = health.groupby('dates', sort=False).sum()
+        dailyCasesTampa, dailyCasesStPete, dailyCasesHealth = __get_daily_cases_by_location(dfByLocation)
 
-        df['dates'] = df['dates'].apply(lambda date: date.title())
-        return totalCasesTampa + ' cases', totalCasesHealth + ' cases', str(dailyCasesTampa['cases'][-1]) + ' case(s) (' + \
-            str(tampa['dates'][-1]).title() + ')', str(dailyCasesHealth['cases'][-1]) + ' case(s) (' + \
-            str(health['dates'][-1]).title() + ')',totalCasesStPete + ' cases',\
-            str(dailyCasesStPete['cases'][-1]) + ' case(s) (' +\
-            str(stPete['dates'][-1]).title() + ')',\
-            [{'name': i.title() , 'id': i} for i in df.columns],\
-            df.to_dict('records')
+        # df['dates'] = df['dates'].apply(lambda date: date.title())
+        data_table = __generate_data_table_information(df)
+    
+        return totalCasesTampa + ' cases', totalCasesHealth + ' cases',totalCasesStPete + ' cases',\
+            __create_daily_cases_string(dailyCasesTampa), __create_daily_cases_string(dailyCasesHealth),\
+            __create_daily_cases_string(dailyCasesStPete),\
+            data_table[0], data_table[1]
     except Exception as e:
         print('updateCards: ', e)
         raise PreventUpdate
@@ -140,6 +163,8 @@ def updateCards(data):
 def create_general_graphs(data):
     try:
         df = __string_to_df(data)
+        
+        
         tampa = df[(df['locations'] == 'Tampa')].groupby(
                        'dates', sort=False, as_index=False).sum()
         health = df[(df['locations'] == 'Health')].groupby(
