@@ -234,7 +234,7 @@ def tampa_tab_content(df):
         dict(data = gg.generate_box_plot(student, employee), layout = gg.general_graph_layout('Box Plot For Daily Cases Per Occupation (USF Tampa)')),\
         dict(data = gg.generate_pie_plot(student, employee), layout = gg.general_graph_layout('Total Cases Percentage Per Occupation (USF Tampa)')),\
         dict(data = gg.generate_employee_student_total_graph(student, employee), layout = gg.general_graph_layout('Student Vs. Employee Total Cases (USF Tampa)')),\
-        f'The USF Tampa campus has seen a {result:.2%} {status} in cases in the last ten days. The number of cases went from {lastValue} to {mostRecent}.',\
+        f'The USF Tampa campus has seen a {result:.2%} {status} in cases in the last two weeks. The number of cases went from {lastValue} to {mostRecent}.',\
         __create_avg_string(employeeAvg, studentAvg), tampa_collapse()
         
 def tampa_collapse():
@@ -262,7 +262,7 @@ def st_pete_tab_content(df):
         dict(data = gg.generate_box_plot(student, employee), layout = gg.general_graph_layout('Box Plot For Daily Cases Per Occupation (USF St. Pete)')),\
         dict(data = gg.generate_pie_plot(student, employee), layout = gg.general_graph_layout('Total Cases Percentage Per Occupation (USF St. Pete)')),\
         dict(data = gg.generate_employee_student_total_graph(student, employee), layout = gg.general_graph_layout('Student Vs. Employee Total Cases (USF St. Pete)')),\
-        f'The USF St. Pete campus has seen a {result:.2%} {status} in cases in the last ten days. The number of cases went from {lastValue} to {mostRecent}.',\
+        f'The USF St. Pete campus has seen a {result:.2%} {status} in cases in the last two weeks. The number of cases went from {lastValue} to {mostRecent}.',\
         __create_avg_string(employeeAvg, studentAvg, 'St Pete'), st_pete_collapse()
         
 def st_pete_collapse():
@@ -290,7 +290,7 @@ def health_tab_content(df):
         dict(data = gg.generate_box_plot(student, employee), layout = gg.general_graph_layout('Box Plot For Daily Cases Per Occupation (USF Health)')),\
         dict(data = gg.generate_pie_plot(student, employee), layout = gg.general_graph_layout('Total Cases Percentage Per Occupation (USF Health)')),\
         dict(data = gg.generate_employee_student_total_graph(student, employee), layout = gg.general_graph_layout('Student Vs. Employee Total Cases (USF Health)')),\
-        f'USF Health has seen a {result:.2%} {status} in cases in the last ten days. The number of cases went from {lastValue} to {mostRecent}.',\
+        f'USF Health has seen a {result:.2%} {status} in cases in the last two weeks. The number of cases went from {lastValue} to {mostRecent}.',\
         __create_avg_string(employeeAvg, studentAvg, 'Health'), health_collapse()
         
 def health_collapse():
