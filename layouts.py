@@ -35,6 +35,7 @@ alert = html.Div([
             id="alert-fade",
             dismissable=True,
             is_open=True,
+            className = 'shadow',
         )
 ])
 
@@ -125,11 +126,11 @@ stPeteCardContent = [
 cards = html.Div([
     dbc.Row(
         [
-            dbc.Col(dbc.Card(tampaCardContent),
+            dbc.Col(dbc.Card(tampaCardContent, className = 'shadow'),
                     className='col-sm'),
-            dbc.Col(dbc.Card(stPeteCardContent),
+            dbc.Col(dbc.Card(stPeteCardContent, className = 'shadow'),
                     className='col-sm'),
-            dbc.Col(dbc.Card(healthCardContent),
+            dbc.Col(dbc.Card(healthCardContent, className = 'shadow'),
                     className='col-sm')
         ],
         className="mb-4",
@@ -168,7 +169,7 @@ collapse = html.Div(
 )
 
 EmployeeStudentGraph = html.Div([
-    dcc.Graph(id='employee-student-health-pie',
+    dcc.Graph(id='employee-student-pie',
               config=dict(displaylogo=False,
                           displayModeBar=False,
                           scrollZoom=False)),
@@ -184,7 +185,7 @@ EmployeeStudentGraph = html.Div([
                           scrollZoom=False)),
     html.Div(
         [
-            dcc.Graph(id='employee-student-health-box',
+            dcc.Graph(id='employee-student-box',
               config=dict(displaylogo=False,
                           displayModeBar=False,
                           scrollZoom=False)),
@@ -210,23 +211,23 @@ generalJumbotron = dbc.Jumbotron(
         )
     ],
     fluid=True,
+    className = 'shadow'
 )
 
-generalTabs = dbc.Card(
-    [
-        dbc.CardHeader(
+generalTabs = html.Div([
             dbc.Tabs(
                 [
-                    dbc.Tab(label="USF Tampa", tab_id="tampa"),
-                    dbc.Tab(label="USF St. Petersburg", tab_id="st-pete"),
-                    dbc.Tab(label="USF Health", tab_id="health"),
+                    dbc.Tab(label="USF Tampa", tab_id="Tampa"),
+                    dbc.Tab(label="USF St. Petersburg", tab_id="St. Pete"),
+                    dbc.Tab(label="USF Health", tab_id="Health"),
                     # dbc.Tab(label="USF Sarasota-Manatee", tab_id="sarasota-manatee"),
                 ],
                 id="general-tabs",
                 card=True,
-                active_tab="tampa",
-            )
-        ),
+                active_tab="Tampa",
+            ),
+            # style = dict(background = 'white')
+        # ),
         dbc.CardBody(
             html.Div([
                 generalJumbotron,
@@ -259,7 +260,7 @@ USFLayout = html.Div([
                 'fontSize' : '1rem',
                 'color' : const.DARK_GREEN,
             },
-            style_cell = dict(textAlign = 'center')
+            style_cell = dict(textAlign = 'center'),
         )
     ], className = 'container-fluid w-50', style = dict(textAlign = 'center')),
     html.Footer([
