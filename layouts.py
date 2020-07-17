@@ -39,31 +39,6 @@ alert = html.Div([
         )
 ])
 
-# Collapse for graphs
-tampaCollapse = html.Div(
-    [
-        dbc.Button(
-            "What does this Graph mean?",
-            id="tampa-collapse-button",
-            className="mb-3",
-            color="primary",
-        ),
-        dbc.Collapse(
-            dbc.Card(dbc.CardBody([
-                html.H5('The plot represents the distribution of Covid-19 cases through their quartiles'),
-                html.Ul([
-                    html.Li(html.H6('The number of cases per day for an occupation is concentrated between the lower(Q1) and upper(Q3) quartiles.')),
-                    html.Li(html.H6('The mean represents the average number of daily reported cases for the occupation.')),
-                ]),
-                html.H5('''The data suggests that students on the Tampa Campus have a higher mean and a more distributed box
-                                plot. This could be due to a higher probability of students assembling in groups.''')
-                ]),style = dict(background = const.GREY)),
-            id="tampa-collapse",style = dict(textAlign = 'left')
-        ),
-    ],
-)
-
-
 # Card overview
 # Tampa Card layout
 tampaCardContent = [
@@ -74,6 +49,7 @@ tampaCardContent = [
             "",
             id='tampa-card-totalcases',
             className="card-text",
+            # style = dict(fontWeight = 'bold')
         ),
         html.H4("Latest update", className="card-title"),
         html.H5(
@@ -162,7 +138,7 @@ collapse = html.Div(
         ),
         dbc.Collapse(
             dbc.Card(dbc.CardBody(
-                                  id = 'collapse-text'),style = dict(background = const.GREY)),
+                                  id = 'collapse-text'),style = dict(background = const.GREY), className = 'shadow'),
             id="collapse",style = dict(textAlign = 'left')
         ),
     ],
@@ -217,10 +193,10 @@ generalJumbotron = dbc.Jumbotron(
 generalTabs = html.Div([
             dbc.Tabs(
                 [
-                    dbc.Tab(label="USF Tampa", tab_id="Tampa"),
-                    dbc.Tab(label="USF St. Petersburg", tab_id="St. Pete"),
-                    dbc.Tab(label="USF Health", tab_id="Health"),
-                    # dbc.Tab(label="USF Sarasota-Manatee", tab_id="sarasota-manatee"),
+                    dbc.Tab(label="USF Tampa", tab_id="Tampa", label_style = dict(fontSize = '1.25rem')),
+                    dbc.Tab(label="USF St. Petersburg", tab_id="St. Pete", label_style = dict(fontSize = '1.25rem')),
+                    dbc.Tab(label="USF Health", tab_id="Health", label_style = dict(fontSize = '1.25rem')),
+                    # dbc.Tab(label="USF Sarasota-Manatee", tab_id="sarasota-manatee", label_style = dict(fontSize = '1.25rem')),
                 ],
                 id="general-tabs",
                 card=True,
