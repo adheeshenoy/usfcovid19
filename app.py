@@ -24,15 +24,39 @@ app = dash.Dash(
         "content":
         "width=device-width, initial-scale=1, minimum-scale = 1, maximum-scale=1"
     }],
-)
+    suppress_callback_exceptions=True)
 
 server = app.server
 
 app.title = 'USF Covid 19'
 app._favicon = '/assets/favicon.ico'
 
-app.layout = html.Div(
-    [dcc.Store(id='data', data=data.__get_data()), layouts.USFLayout])
+app.layout = html.Div([
+    dcc.Location(id='url', refresh=False), layouts.navbar,
+    dcc.Store(id='data', data=data.__get_data()),
+    html.Div(layouts.USFLayout, id='page-content'), layouts.footer
+])
+
+
+@app.callback(Output('page-content', 'children'), [Input('url', 'pathname')])
+def page(pathname):
+    if pathname == '/table-header':
+        return layouts.table_layout
+    elif pathname == '/home':
+        return layouts.USFLayout
+    else:
+        return layouts.USFLayout
+
+
+@app.callback([Output('table', 'columns'),
+               Output('table', 'data')], [Input('data', 'data')])
+def updateDataTable(data):
+    try:
+        df = hf.string_to_df(data)
+        data_table = hf.generate_data_table_information(df)
+        return data_table[0], data_table[1]
+    except:
+        raise PreventUpdate
 
 
 @app.callback([
@@ -42,10 +66,8 @@ app.layout = html.Div(
     Output('tampa-card-update', 'children'),
     Output('tampa-card-health-update', 'children'),
     Output('st-pete-card-update', 'children'),
-    Output('table', 'columns'),
-    Output('table', 'data')
 ], [Input('data', 'data')])
-def updateCardsAndDataTable(data):
+def updateCards(data):
     try:
         df = hf.string_to_df(data)
 
@@ -60,12 +82,9 @@ def updateCardsAndDataTable(data):
         dailyCasesTampa, dailyCasesStPete, dailyCasesHealth = hf.get_daily_cases_by_location(
             dfByLocation)
 
-        data_table = hf.generate_data_table_information(df)
-
         return totalCasesTampa + ' cases', totalCasesHealth + ' cases',totalCasesStPete + ' cases',\
             hf.create_daily_cases_string(dailyCasesTampa), hf.create_daily_cases_string(dailyCasesHealth),\
-            hf.create_daily_cases_string(dailyCasesStPete),\
-            data_table[0], data_table[1]
+            hf.create_daily_cases_string(dailyCasesStPete)
     except Exception as e:
         print('updateCards: ', e)
         raise PreventUpdate

@@ -93,8 +93,8 @@ def get_daily_average(df):
 def create_avg_string(employeeAvg, studentAvg, campus):
     '''returns a string that specifies the daily average for student vs employees'''
     ratio = studentAvg / employeeAvg
-    return f'Per day, on average, {ratio:.2} times the number of students are tested positive compared to USF {campus} employees.'\
-            if(ratio != 1.0) else f'Per day, on average, the same number of students are tested positive as USF {campus} employees.'
+    return f'On average per day, {ratio:.2} times the number of students are tested positive compared to USF {campus} employees.'\
+            if(ratio != 1.0) else f'On average per day, the same number of students are tested positive as USF {campus} employees.'
             
 def generate_collapse(active_tab):
     '''Returns content for the collapse within the respective tabs based on the active_tab input'''

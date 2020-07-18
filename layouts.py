@@ -7,18 +7,17 @@ import constants as const
 # Navigation Bar
 navbar = dbc.NavbarSimple(
     children=[
-        dbc.NavItem(dbc.NavLink("USF Covid-19 Page", href="https://www.usf.edu/coronavirus/", external_link=True, target = '__blank')),
         dbc.NavItem(
-            dbc.NavLink("Campus Information",
-                        href="#daily-bar-graph",
-                        external_link=True)),
+            dbc.NavLink("Home",
+                        href = '/home'
+                        )),
         dbc.NavItem(
             dbc.NavLink("Data Table",
-                        href="#table-header",
-                        external_link=True))
+                        href="/table-header")),
+        dbc.NavItem(dbc.NavLink("USF Covid-19 Page", href="https://www.usf.edu/coronavirus/", external_link=True, target = '__blank'))
     ],
     brand="COVID-19 Dashboard for University Of South Florida",
-    brand_href="https://www.usf.edu/coronavirus/",
+    brand_href="/home",
     color=const.LIGHT_GREEN,
     fluid=True,
     expand = 'lg',
@@ -49,7 +48,6 @@ tampaCardContent = [
             "",
             id='tampa-card-totalcases',
             className="card-text",
-            # style = dict(fontWeight = 'bold')
         ),
         html.H4("Latest update", className="card-title"),
         html.H5(
@@ -213,20 +211,7 @@ generalTabs = html.Div([
     ]
 )
 
-# Main Layout
-USFLayout = html.Div([
-    navbar,
-    alert,
-    html.Div([
-        cards,
-    ], className='container-fluid'),
-    html.Div([html.Div([
-        totalScatterGraph,
-        dailyBarGraph,
-    ])]),
-    # html.Div([tabs], style = dict( background = 'white')),
-    html.Div([generalTabs], style = dict( background = 'white')),
-    html.Div([
+table_layout = html.Div([
         html.H1('Data Table', id = 'table-header', style = dict(color = const.DARK_GREEN, padding = '1rem')),
         dash_table.DataTable(
             id = 'table',
@@ -238,8 +223,10 @@ USFLayout = html.Div([
             },
             style_cell = dict(textAlign = 'center'),
         )
-    ], className = 'container-fluid w-50', style = dict(textAlign = 'center')),
-    html.Footer([
+    ], className = 'container-fluid w-50', style = dict(textAlign = 'center'))
+
+
+footer = html.Footer([
         html.H5('Made by,'),
         html.Div(
             [
@@ -254,4 +241,16 @@ USFLayout = html.Div([
             ]
         ),
     ], id = 'footer', style = dict(borderTop =  "solid 1px white"))
+
+# Main Layout
+USFLayout = html.Div([
+    alert,
+    html.Div([
+        cards,
+    ], className='container-fluid'),
+    html.Div([html.Div([
+        totalScatterGraph,
+        dailyBarGraph,
+    ])]),
+    html.Div([generalTabs], style = dict( background = 'white')),
 ])
