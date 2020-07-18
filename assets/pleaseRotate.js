@@ -142,6 +142,9 @@
     function setVisibility(visible) {
         var backdropElement = document.getElementById("pleaserotate-backdrop");
 
+        document.body.style.overflowX = 'hidden';
+        document.querySelector('html').style.overflowX = 'hidden';
+
         if (visible) {
             if (backdropElement) {
                 backdropElement.style["display"] = "block";
