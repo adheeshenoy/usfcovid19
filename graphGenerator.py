@@ -1,5 +1,6 @@
 import plotly.graph_objs as go
 import constants as const
+import helper_functions as hf
 
 # Tracers
 def generate_daily_bar_graph(locationList):
@@ -107,24 +108,26 @@ def general_graph_layout(title):
 def generate_bar_layout(title, barmode):
     '''Returns a layout for a bar graph with the barmode dependent on the 
     input'''
-    return dict(
+    layout = dict(
         barmode = barmode,
         title=dict(text=title, font=dict(size=22, color=const.DARK_GREEN)),
         xaxis=dict(
             tickfont=dict(size=16),
-            rangeselector=dict(
-                margin=dict(b=2),
-                font=dict(size=14, color=const.DARK_GREEN),
-                bgcolor=const.GREY,
-                buttons=list([
-                    dict(count=15,
-                         label="15 Days",
-                         step="day",
-                         stepmode="backward"),
-                    dict(count=1,
-                         label="1 month",
-                         step="month",
-                         stepmode="backward"),
+            # rangeselector=
+            ),
+                # dict(
+                # margin=dict(b=2),
+                # font=dict(size=14, color=const.DARK_GREEN),
+                # bgcolor=const.GREY,
+                # buttons=list([
+                #     dict(count=15,
+                #          label="15 Days",
+                #          step="day",
+                #          stepmode="backward"),
+                #     dict(count=1,
+                #          label="1 month",
+                #          step="month",
+                #          stepmode="backward"),
                     # dict(count=3,
                     #      label="3 months",
                     #      step="month",
@@ -133,10 +136,18 @@ def generate_bar_layout(title, barmode):
                     #        label="6 months",
                     #        step="month",
                     #        stepmode="backward"),
-                    dict(label='All', step="all")
-                ]))),
+                #     dict(label='All', step="all")
+                # ]))),
         yaxis=dict(tickfont=dict(size=16),
                    title=dict(text='Number of Cases', font=dict(size=16))),
         dragmode=False,
         legend=dict(bgcolor=const.GREY, font=dict(size=14)),
     )
+    
+    hf.add_range_selector(layout, default = '1m')
+    return layout
+    
+    
+# def generate(df):
+#     tracer = [go.Scatter(x = df['ds'], y = df['yhat'])]
+#     return tracer

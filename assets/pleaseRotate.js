@@ -1,4 +1,4 @@
-
+// Based on https://www.robscanlon.com/pleaserotate/
 (function () {
     var PleaseRotate = {},
         currentOrientation = null,

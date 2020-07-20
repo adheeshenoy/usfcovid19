@@ -11,6 +11,9 @@ import graphGenerator as gg
 from datetime import datetime, timedelta
 import helper_functions as hf
 
+
+from fbprophet import Prophet
+
 # Function names follow snake case
 # Variable names and Callbacks are camel case
 # Ids use hypens
@@ -166,6 +169,31 @@ app.scripts.append_script({
     'external_url':
     'https://cdn.jsdelivr.net/gh/adheeshenoy/usfcovid19/gtag.js'
 })
+
+
+# @app.callback(
+#     Output('predict','figure'),
+#     [Input('data','data')]
+# )
+# def predict(data):
+#     try:
+#         df = hf.string_to_df(data)
+#         locationList = hf.get_df_by_location(df)
+#         locationList = hf.format_dfs_for_prediction(locationList)
+#         tampaPrediction = get_prediction(locationList[2])
+#         return dict(data = gg.generate(tampaPrediction), layout = gg.general_graph_layout('Predition'))
+        
+#     except Exception as e:
+#         print(e)
+#         raise PreventUpdate
+    
+# def get_prediction(df):
+#     m = Prophet()
+#     m.fit(df)
+#     future = m.make_future_dataframe(periods = 14)
+#     forecast = m.predict(future)
+#     return forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']]
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
