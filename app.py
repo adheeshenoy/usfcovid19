@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 import helper_functions as hf
 
 
-from fbprophet import Prophet
+# from fbprophet import Prophet
 
 # Function names follow snake case
 # Variable names and Callbacks are camel case
