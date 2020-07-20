@@ -4,7 +4,7 @@ from word2number import w2n
 import pandas as pd
 from datetime import datetime
 
-from fbprophet import Prophet
+# from fbprophet import Prophet
 import helper_functions as hf
 
 def __get_number(text):
