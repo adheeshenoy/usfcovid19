@@ -15,7 +15,7 @@ I partnered with a [student](https://github.com/Rafael1321/USF-COVID-19) to deve
 * Google Analytics (For gathering website traffic data)
 
 ## Scripts used
-We also modified the scripts written by these creators to improve the user experience for the website
+We also modified these scripts to improve the user experience for the website
 
 * [PleaseRotate.js](https://github.com/arscan/pleaserotate.js)
 * [Range.py](https://github.com/danio/plotly_tools/blob/master/range.py)
