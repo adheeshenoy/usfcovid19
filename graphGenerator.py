@@ -16,23 +16,50 @@ def generate_daily_bar_graph(locationList):
         )
     return tracerList
 
+def generate_total_scatter(selection, location_list, prediction_list):
+    '''Return tracers for total scatter graphs based on location'''
+    try:
+        tracer_list = []
+        if selection == 'actual':
+            for location, color, name in zip(location_list, const.GENERAL_COLORS, const.CAMPUS_NAMES):
+                location['cases'] = location['cases'].cumsum()
+                tracer_list.append(go.Scatter(
+                    x=location['dates'],
+                    y=location['cases'],
+                    name=name, mode='lines', line=dict(color=color, width=4)))
+        elif selection == 'prediction':
+            for location, color, name, col_name in zip(prediction_list, const.GENERAL_COLORS, const.CAMPUS_NAMES,
+                                                       const.PREDICTION_COL_NAMES):
+                tracer_list.append(go.Scatter(
+                    x=location['DS'],
+                    y=location[col_name],
+                    name=name, mode='lines', line=dict(color=color, width=4)))
 
-def generate_total_scatter_graph(locationList):
-    '''Return tracers for total scatter graph based on location'''
-    tracerList = []
-    
-    for location, color, name in zip(locationList, const.GENERAL_COLORS, const.CAMPUS_NAMES):
-        location['cases'] = location['cases'].cumsum()
-        tracerList.append(
-            go.Scatter(x=location['dates'],
-               y=location['cases'],
-               name=name,
-               mode = 'lines',
-               line = dict(color = color, width = 4)
-               )
-        )
+        return tracer_list
+    except Exception as e:
+        print(e)
 
-    return tracerList
+# def generate_total_scatter_graph(selection, locationList):
+#     '''Return tracers for total scatter graph based on location'''
+#     try:
+#         tracer_list = []
+#         if selection == 'actual':
+#             for location, color, name in zip(location_list, const.GENERAL_COLORS, const.CAMPUS_NAMES):
+#                 location['cases'] = location['cases'].cumsum()
+#                 tracer_list.append(go.Scatter(
+#                     x=location['dates'],
+#                     y=location['cases'],
+#                     name=name, mode='lines', line=dict(color=color, width=4)))
+#         elif selection == 'prediction':
+#             for location, color, name, col_name in zip(location_list, const.GENERAL_COLORS, const.CAMPUS_NAMES,
+#                                                        const.PREDICTION_COL_NAMES):
+#                 tracer_list.append(go.Scatter(
+#                     x=location['DS'],
+#                     y=location[col_name],
+#                     name=name, mode='lines', line=dict(color=color, width=4)))
+#         return tracer_list
+#     except Exception as e:
+#         print(e)
 
 
 def generate_employee_student_total_graph(occupationList):

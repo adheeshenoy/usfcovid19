@@ -4,6 +4,8 @@ from datetime import datetime, timedelta
 import dash_html_components as html
 from dateutil.relativedelta import relativedelta
 import re
+from fbprophet import Prophet
+import constants as const
 
 
 def get_df_by_location(df, locations=['Tampa', 'St. Pete', 'Health']):
@@ -179,4 +181,21 @@ def format_dfs_for_prediction(locationList):
         df['cases'] = df['cases'].astype(int)
         df = df.rename(columns = {'index': 'ds', 'cases':'y'})
         dfs.append(df)  
+    return dfs
+
+def get_prediction(df):
+    '''Returns a data frame containing a prediction of the # of cases in the specified future period of time'''
+    m = Prophet()
+    m.fit(df)
+    future = m.make_future_dataframe(periods=50)
+    forecast = m.predict(future)
+    forecast['yhat'] = forecast['yhat'].apply(lambda x: int(x))
+    return forecast[['ds', 'yhat']]
+
+def get_prediction_by_location(prediction_df):
+    '''Returns a list of prediction data frames based on locations.'''
+    dfs = []
+    prediction_df = prediction_df.reset_index()
+    for col_name in const.PREDICTION_COL_NAMES:
+        dfs.append(prediction_df[['DS', col_name]])
     return dfs

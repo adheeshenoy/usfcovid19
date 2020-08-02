@@ -10,7 +10,11 @@ from dash.exceptions import PreventUpdate
 import graphGenerator as gg
 from datetime import datetime, timedelta
 import helper_functions as hf
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+import pandas as pd
 
+server = Flask(__name__)
 
 # from fbprophet import Prophet
 
@@ -20,6 +24,7 @@ import helper_functions as hf
 
 app = dash.Dash(
     __name__,
+    server= server,
     external_stylesheets=[dbc.themes.FLATLY, '/assets/stylesheet.css'],
     meta_tags=[{
         "name":
@@ -29,17 +34,21 @@ app = dash.Dash(
     }],
     suppress_callback_exceptions=True)
 
-server = app.server
+# server = app.server
 
 app.title = 'USF Covid 19'
 app._favicon = '/assets/favicon.ico'
 
+# SQLAlchemy
+app.server.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.server.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://cljfggbbktwade:dd83bd7c6b0694b9d2cd914011ce1b7fc746dc376de1b79ce74bf8b1fb5f0579@ec2-34-195-115-225.compute-1.amazonaws.com:5432/d33hb833fmdl4g'
+db = SQLAlchemy(app.server)
+
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False), layouts.navbar,
-    dcc.Store(id='data', data=data.__get_data()),
+    dcc.Store(id='data', data=data.__get_data().to_json()),
     html.Div(layouts.USFLayout, id='page-content'), layouts.footer
 ])
-
 
 @app.callback(Output('page-content', 'children'), [Input('url', 'pathname')])
 def page(pathname):
@@ -96,20 +105,38 @@ def updateCards(data):
 @app.callback([
     Output('daily-bar-graph', 'figure'),
     Output('total-scatter-graph', 'figure')
-], [Input('data', 'data')])
-def create_general_graphs(data):
-    try:
-        df = hf.string_to_df(data)
-        df['dates'] = df['dates'].apply(
-            lambda date: datetime.strptime(date, '%B %d %Y'))
-        locationList = hf.get_daily_cases_by_location(
-            hf.get_df_by_location(df))
+], [Input('data', 'data'),
+    Input('graph_type','value')])
+def create_general_graphs(data, graphType):
+    df = hf.string_to_df(data)
+    prediction_df = pd.read_sql_table('prediction', con=db.engine)
+    df['dates'] = df['dates'].apply(lambda date: datetime.strptime(date, "%B %d %Y"))
 
-        return dict(data = gg.generate_daily_bar_graph(locationList), layout = gg.generate_bar_layout('Daily Cases on USF Campuses', 'group')),\
-            dict(data = gg.generate_total_scatter_graph(locationList), layout = gg.general_graph_layout('Total Cases on USF Campuses'))
-    except Exception as e:
-        print(e)
-        raise PreventUpdate
+    location_list = hf.get_daily_cases_by_location(hf.get_df_by_location(df))
+    prediction_list = hf.get_prediction_by_location(prediction_df)
+
+    return dict(data=gg.generate_daily_bar_graph(location_list),
+                layout=gg.generate_bar_layout('Daily Cases on USF Campuses', 'group')), \
+           dict(data=gg.generate_total_scatter(graphType, location_list, prediction_list),
+                layout=gg.general_graph_layout('Total Cases USF Campuses'))
+    # try:
+    #     df = None
+    #     locationList = None
+    #     if graph_type == 'actual':
+    #         df = hf.string_to_df(data)
+    #         df['dates'] = df['dates'].apply(
+    #             lambda date: datetime.strptime(date, '%B %d %Y'))
+    #         locationList = hf.get_daily_cases_by_location(
+    #             hf.get_df_by_location(df)) 
+    #     else:
+    #         df = pd.read_sql_table('prediction', con=db.engine)
+    #         locationList = hf.get_prediction_by_location(df)              
+
+    #     return dict(data = gg.generate_daily_bar_graph(locationList), layout = gg.generate_bar_layout('Daily Cases on USF Campuses', 'group')),\
+    #         dict(data = gg.generate_total_scatter_graph(graphType,locationList), layout = gg.general_graph_layout('Total Cases on USF Campuses'))
+    # except Exception as e:
+    #     print(e)
+    #     raise PreventUpdate
 
 
 @app.callback(

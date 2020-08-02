@@ -253,6 +253,16 @@ USFLayout = html.Div([
         cards,
     ], className='container-fluid'),
     html.Div([html.Div([
+        dbc.RadioItems( # Used to select between actual and prediction graphs.
+                options=[
+                    {"label": "Actual", "value": 'actual'},
+                    {"label": "Prediction", "value": 'prediction'},
+                ],
+                value='actual',
+                id="graph_type",
+                inline=True,
+                style=dict(marginLeft='4rem', marginTop='1rem'),
+            ),
         totalScatterGraph,
         dailyBarGraph,
     ])]),

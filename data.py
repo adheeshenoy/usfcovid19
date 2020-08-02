@@ -80,8 +80,8 @@ def __get_data():
     df = df.groupby(['dates', 'locations', 'occupations'],
                     sort=False,
                     as_index=False).sum()
-    return df.to_json()
-    # return df
+    # return df.to_json()
+    return df
 
 # df = __get_data()
 # locationList = hf.get_df_by_location(df)
