@@ -23,9 +23,9 @@ def __parser(text):
         return 'Tampa', 'Student', num
     elif 'tampa' in text and ('employee' in text or 'employees' in text):
         return 'Tampa', 'Employee', num
-    elif 'st.' in text and ('student' in text or 'students' in text):
+    elif ('st.' in text or 'st' in text) and ('student' in text or 'students' in text):
         return 'St. Pete', 'Student', num
-    elif 'st.' in text and ('employee' in text or 'employees' in text):
+    elif ('st.' in text or 'st' in text) and ('employee' in text or 'employees' in text):
         return 'St. Pete', 'Employee', num
     elif ('health' in text or 'medical'
           in text) and ('employee' in text or 'employees' in text
@@ -42,6 +42,7 @@ def __parser(text):
         return 'Sarasota Manatee', 'Employee', num
     else:
         print('__parser has an error')
+        print(text)
         #TODO Include Sarasota campus when cases increase significantly
         return -1, -1, -1
 
@@ -71,6 +72,10 @@ def __get_data():
             dataDict.get('locations').append(location)
             dataDict.get('occupations').append(occupation)
             dataDict.get('cases').append(numOfCases)
+            # TODO Add regex
+            # regex = r"\b(?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may?|jun(?:e)?|jul(?:y)?|aug(?:ust)?|oct(?:ober)?|(sept|nov|dec)(?:ember)?)"gm
+            if date == 'Septemebr 3':
+                date = 'September 3'
             dataDict.get('dates').append(
                 (date + ' ' + str(datetime.today().year)).title())
     # + ' ' +str(datetime.today().year)
