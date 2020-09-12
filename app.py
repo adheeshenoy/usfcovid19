@@ -54,8 +54,6 @@ app.layout = html.Div([
 def page(pathname):
     if pathname == '/table-header':
         return layouts.table_layout
-    elif pathname == '/home':
-        return layouts.USFLayout
     else:
         return layouts.USFLayout
 

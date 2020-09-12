@@ -5,16 +5,17 @@ import helper_functions as hf
 # Tracers
 def generate_daily_bar_graph(locationList):
     '''Return tracers for daily bar graph based on location'''
-    tracerList = []
-  
-    for location, color, name in zip(locationList, const.GENERAL_COLORS, const.CAMPUS_NAMES):
-        tracerList.append(
-            go.Bar(x=location['dates'],
-               y=location['cases'],
-               name=name,
-               marker_color=color)
+    return [
+        go.Bar(
+            x=location['dates'],
+            y=location['cases'],
+            name=name,
+            marker_color=color,
         )
-    return tracerList
+        for location, color, name in zip(
+            locationList, const.GENERAL_COLORS, const.CAMPUS_NAMES
+        )
+    ]
 
 def generate_total_scatter(selection, location_list, prediction_list):
     '''Return tracers for total scatter graphs based on location'''
@@ -81,37 +82,38 @@ def generate_employee_student_total_graph(occupationList):
 
 def generate_employee_student_daily_graph(occupationList):
     '''Return tracers for daily bar graph based on occupation'''
-    tracerList = []
-    
-    for occupation, color, name in zip(occupationList, const.OCCUPATION_COLORS, const.OCCUPATION_NAMES):
-        tracerList.append(
-            go.Bar(x=occupation['dates'],
-               y=occupation['cases'],
-               name=name,
-               marker_color=color)
+    return [
+        go.Bar(
+            x=occupation['dates'],
+            y=occupation['cases'],
+            name=name,
+            marker_color=color,
         )
-    return tracerList
+        for occupation, color, name in zip(
+            occupationList, const.OCCUPATION_COLORS, const.OCCUPATION_NAMES
+        )
+    ]
 
 
 def generate_box_plot(occupationList):
     '''Return tracers for box plot based on occupation'''
-    tracerList = []
-    for occupation, color, name in zip(occupationList, const.OCCUPATION_COLORS, const.OCCUPATION_NAMES):
-        tracerList.append(
-            go.Box(y=occupation['cases'],
-               name=name,
-               boxpoints='all',
-               boxmean=True,
-               marker_color = color)
+    return [
+        go.Box(
+            y=occupation['cases'],
+            name=name,
+            boxpoints='all',
+            boxmean=True,
+            marker_color=color,
         )
-    return tracerList
+        for occupation, color, name in zip(
+            occupationList, const.OCCUPATION_COLORS, const.OCCUPATION_NAMES
+        )
+    ]
 
 
 def generate_pie_plot(occupationList):
     '''Return tracers for pie plot based on occupation'''
-    values = []
-    for occupation in occupationList:
-        values.append(occupation['cases'].sum())
+    values = [occupation['cases'].sum() for occupation in occupationList]
     return [
         go.Pie(labels=const.OCCUPATION_NAMES,
                values=values,

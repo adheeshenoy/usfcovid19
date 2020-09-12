@@ -10,35 +10,25 @@ import constants as const
 
 def get_df_by_location(df, locations=['Tampa', 'St. Pete', 'Health']):
     '''Divides a dataframe containing multiple locations based on location'''
-    dfs = []
-    for location in locations:
-        dfs.append(df[df['locations'] == location])
-    return dfs
+    return [df[df['locations'] == location] for location in locations]
 
 def get_df_by_occupation(df, occupations = ['Student','Employee']):
     '''Divides a dataframe containing multiple occupations based on occupation'''
-    dfs = []
-    for occupation in occupations:
-        dfs.append(df[df['occupations'] == occupation])
-    return dfs
+    return [df[df['occupations'] == occupation] for occupation in occupations]
     
 
 
 def get_total_cases_by_location(dfByLocation):
     '''Returns a list of total cases for each location'''
-    totalCases = []
-    for df in dfByLocation:
-        totalCases.append(str(df['cases'].sum()))
-    return totalCases
+    return [str(df['cases'].sum()) for df in dfByLocation]
 
 
 def get_daily_cases_by_location(dfByLocation):
     '''Returns a list of daily cases for each location'''
-    dailyCases = []
-    for df in dfByLocation:
-        dailyCases.append(
-            df.groupby('dates', sort=False, as_index=False).sum())
-    return dailyCases
+    return [
+        df.groupby('dates', sort=False, as_index=False).sum()
+        for df in dfByLocation
+    ]
 
 
 def create_daily_cases_string(dailyCases):
@@ -194,8 +184,8 @@ def get_prediction(df):
 
 def get_prediction_by_location(prediction_df):
     '''Returns a list of prediction data frames based on locations.'''
-    dfs = []
     prediction_df = prediction_df.reset_index()
-    for col_name in const.PREDICTION_COL_NAMES:
-        dfs.append(prediction_df[['DS', col_name]])
-    return dfs
+    return [
+        prediction_df[['DS', col_name]]
+        for col_name in const.PREDICTION_COL_NAMES
+    ]

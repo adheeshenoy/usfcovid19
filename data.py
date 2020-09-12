@@ -18,6 +18,12 @@ def __parser(text):
     # Everything to lower
     text = text.lower().split()
     num = __get_number(text[0])
+    # TODO Convert to Regex 
+    # Regex for location
+    # r"\b(?:Peter(?:sburg)?|tam(?:pa)?|saraso(?:ta)?|medi(?:cal)?|heal(?:th)?)"mig
+    # Regex for occupation
+    # r"\b(?:stud(?:ent)?|empl(?:oyee)?|resi(?:dent)?|heal(?:th)?)"mig 
+    
     if 'tampa' in text and ('student' in text or 'students' in text
                             or 'student-employee:' in text):
         return 'Tampa', 'Student', num
