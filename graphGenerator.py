@@ -27,14 +27,14 @@ def generate_total_scatter(selection, location_list, prediction_list):
                 tracer_list.append(go.Scatter(
                     x=location['dates'],
                     y=location['cases'],
-                    name=name, mode='lines', line=dict(color=color, width=4)))
+                    name=name, mode='lines+markers', line=dict(color=color, width=3)))
         elif selection == 'prediction':
             for location, color, name, col_name in zip(prediction_list, const.GENERAL_COLORS, const.CAMPUS_NAMES,
                                                        const.PREDICTION_COL_NAMES):
                 tracer_list.append(go.Scatter(
                     x=location['DS'],
                     y=location[col_name],
-                    name=name, mode='lines', line=dict(color=color, width=4)))
+                    name=name, mode='lines+markers', line=dict(color=color, width=3)))
 
         return tracer_list
     except Exception as e:
@@ -73,8 +73,8 @@ def generate_employee_student_total_graph(occupationList):
             go.Scatter(x=occupation['dates'],
                y=occupation['cases'],
                name=name,
-               mode = 'lines',
-               line = dict(color = color, width = 4)
+               mode = 'lines+markers',
+               line = dict(color = color, width = 3)
                )
         )
     return tracerList
