@@ -94,29 +94,3 @@ def __get_data():
     # return df.to_json()
     return df
 
-# df = __get_data()
-# locationList = hf.get_df_by_location(df)
-# def format_dfs_for_prediction(locationList):
-#     dfs = []
-#     for df in locationList:
-#         df = df.groupby('dates', sort=False, as_index=False).sum()
-#         df['cases'] = df['cases'].cumsum()
-#         df['dates'] = df['dates'].apply(lambda date: datetime.strftime(datetime.strptime(date, '%B %d %Y'), '%Y-%m-%d'))
-#         # df = df.rename(columns = {'cases': 'y', 'dates':'ds'})
-#         r = pd.date_range(start=df.dates.min(), end=df.dates.max())
-#         df = df.set_index('dates')
-#         df.index = pd.DatetimeIndex(df.index)
-#         df = df.reindex(r).reset_index().fillna(method = 'ffill')
-#         df['cases'] = df['cases'].astype(int)
-#         df = df.rename(columns = {'index': 'ds', 'cases':'y'})
-#         dfs.append(df)  
-#     return dfs
-
-# locationList = format_dfs_for_prediction(locationList)
-# print(locationList[0])
-
-# m = Prophet()
-# m.fit(locationList[0])
-# future = m.make_future_dataframe(periods = 14)
-# forecast = m.predict(future)
-# print(forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']])

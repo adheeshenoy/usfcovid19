@@ -34,33 +34,11 @@ def generate_total_scatter(selection, location_list, prediction_list):
                 tracer_list.append(go.Scatter(
                     x=location['DS'],
                     y=location[col_name],
-                    name=name, mode='lines+markers', line=dict(color=color, width=3)))
+                    name=name, mode='lines', line=dict(color=color, width=3)))
 
         return tracer_list
     except Exception as e:
         print(e)
-
-# def generate_total_scatter_graph(selection, locationList):
-#     '''Return tracers for total scatter graph based on location'''
-#     try:
-#         tracer_list = []
-#         if selection == 'actual':
-#             for location, color, name in zip(location_list, const.GENERAL_COLORS, const.CAMPUS_NAMES):
-#                 location['cases'] = location['cases'].cumsum()
-#                 tracer_list.append(go.Scatter(
-#                     x=location['dates'],
-#                     y=location['cases'],
-#                     name=name, mode='lines', line=dict(color=color, width=4)))
-#         elif selection == 'prediction':
-#             for location, color, name, col_name in zip(location_list, const.GENERAL_COLORS, const.CAMPUS_NAMES,
-#                                                        const.PREDICTION_COL_NAMES):
-#                 tracer_list.append(go.Scatter(
-#                     x=location['DS'],
-#                     y=location[col_name],
-#                     name=name, mode='lines', line=dict(color=color, width=4)))
-#         return tracer_list
-#     except Exception as e:
-#         print(e)
 
 
 def generate_employee_student_total_graph(occupationList):
@@ -175,8 +153,3 @@ def generate_bar_layout(title, barmode):
     
     hf.add_range_selector(layout, default = '1m')
     return layout
-    
-    
-# def generate(df):
-#     tracer = [go.Scatter(x = df['ds'], y = df['yhat'])]
-#     return tracer

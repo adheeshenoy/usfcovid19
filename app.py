@@ -117,24 +117,6 @@ def create_general_graphs(data, graphType):
                 layout=gg.generate_bar_layout('Daily Cases on USF Campuses', 'group')), \
            dict(data=gg.generate_total_scatter(graphType, location_list, prediction_list),
                 layout=gg.general_graph_layout('Total Cases USF Campuses'))
-    # try:
-    #     df = None
-    #     locationList = None
-    #     if graph_type == 'actual':
-    #         df = hf.string_to_df(data)
-    #         df['dates'] = df['dates'].apply(
-    #             lambda date: datetime.strptime(date, '%B %d %Y'))
-    #         locationList = hf.get_daily_cases_by_location(
-    #             hf.get_df_by_location(df)) 
-    #     else:
-    #         df = pd.read_sql_table('prediction', con=db.engine)
-    #         locationList = hf.get_prediction_by_location(df)              
-
-    #     return dict(data = gg.generate_daily_bar_graph(locationList), layout = gg.generate_bar_layout('Daily Cases on USF Campuses', 'group')),\
-    #         dict(data = gg.generate_total_scatter_graph(graphType,locationList), layout = gg.general_graph_layout('Total Cases on USF Campuses'))
-    # except Exception as e:
-    #     print(e)
-    #     raise PreventUpdate
 
 
 @app.callback(
@@ -194,31 +176,6 @@ app.scripts.append_script({
     'external_url':
     'https://cdn.jsdelivr.net/gh/adheeshenoy/usfcovid19/gtag.js'
 })
-
-
-# @app.callback(
-#     Output('predict','figure'),
-#     [Input('data','data')]
-# )
-# def predict(data):
-#     try:
-#         df = hf.string_to_df(data)
-#         locationList = hf.get_df_by_location(df)
-#         locationList = hf.format_dfs_for_prediction(locationList)
-#         tampaPrediction = get_prediction(locationList[2])
-#         return dict(data = gg.generate(tampaPrediction), layout = gg.general_graph_layout('Predition'))
-        
-#     except Exception as e:
-#         print(e)
-#         raise PreventUpdate
-    
-# def get_prediction(df):
-#     m = Prophet()
-#     m.fit(df)
-#     future = m.make_future_dataframe(periods = 14)
-#     forecast = m.predict(future)
-#     return forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']]
-
 
 if __name__ == '__main__':
     app.run_server(debug=True)
