@@ -110,7 +110,17 @@ def general_graph_layout(title):
                                       font=dict(size=16))),
                 dragmode=False,
                 legend=dict(bgcolor=const.GREY,
-                            font=dict(size=14)))
+                            font=dict(size=14)),
+                # TODO Add lines on every occasion
+                # shapes = dict(type = 'line',
+                #               x0='2020-08-24 00:00:00',
+                #               y0=0,
+                #               x1='2020-08-24 00:00:00',
+                #               y1=450,
+                #               line = dict(color='Blue',
+                #                           width = 3)
+                #               )
+                )
 
 def generate_bar_layout(title, barmode):
     '''Returns a layout for a bar graph with the barmode dependent on the 
@@ -153,3 +163,6 @@ def generate_bar_layout(title, barmode):
     
     hf.add_range_selector(layout, default = '1m')
     return layout
+
+def generate_line():
+    return 

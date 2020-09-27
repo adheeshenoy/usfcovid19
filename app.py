@@ -62,7 +62,7 @@ def page(pathname):
                Output('table', 'data')], [Input('data', 'data')])
 def updateDataTable(data):
     try:
-        df = hf.string_to_df(data)
+        df = hf.string_to_df(data).iloc[::-1]
         data_table = hf.generate_data_table_information(df)
         return data_table[0], data_table[1]
     except:

@@ -22,7 +22,22 @@ class Predictions(db.Model):
         self.YHAT_TAMPA = YHAT_TAMPA
         self.YHAT_ST_PETE = YHAT_ST_PETE
         self.YHAT_HEALTH = YHAT_HEALTH
+    
+#TODO Add covid data to database    
+# class covid_data(db.Model):
+#     '''Defines a table for the database and the data types for its columns'''
+#     __tablename__ = 'covid_data'
 
+#     dates = db.Column(db.Text(40), nullable=False, primary_key=True)
+#     locations = db.Column(db.Text(40), nullable=False)
+#     occupations = db.Column(db.Text(40), nullable=False)
+#     cases = db.Column(db.Text(40), nullable=False)
+
+#     def __init__(self,dates, locations, occupations, cases):
+#         self.dates = dates
+#         self.locations = locations
+#         self.occupations = occupations
+#         self.cases = cases
 
 @sched.scheduled_job('interval', weeks = 4)
 def get_predictions():
