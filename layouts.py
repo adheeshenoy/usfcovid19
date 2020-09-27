@@ -245,10 +245,6 @@ footer = html.Footer([
 # Main Layout
 USFLayout = html.Div([
     alert,
-    # dcc.Graph(id='predict',
-    #           config=dict(displaylogo=False,
-    #                       displayModeBar=False,
-    #                       scrollZoom=False)),
     html.Div([
         cards,
     ], className='container-fluid'),
