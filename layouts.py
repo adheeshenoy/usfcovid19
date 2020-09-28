@@ -14,9 +14,9 @@ navbar = dbc.NavbarSimple(
         dbc.NavItem(
             dbc.NavLink("Data Table",
                         href="/table-header")),
-        dbc.NavItem(dbc.NavLink("USF Covid-19 Page", href="https://www.usf.edu/coronavirus/", external_link=True, target = '__blank'))
+        dbc.NavItem(dbc.NavLink("USF COVID-19 Page", href="https://www.usf.edu/coronavirus/", external_link=True, target = '__blank'))
     ],
-    brand="COVID-19 Dashboard for University Of South Florida",
+    brand="COVID-19 Dashboard for University of South Florida",
     brand_href="/home",
     color=const.LIGHT_GREEN,
     fluid=True,
