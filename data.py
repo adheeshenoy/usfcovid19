@@ -92,5 +92,6 @@ def __get_data():
                     sort=False,
                     as_index=False).sum()
     # return df.to_json()
+    print(df)
     return df
 
