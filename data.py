@@ -16,7 +16,7 @@ def __get_number(text):
 
 def __parser(text):
     # Everything to lower
-    text = text.lower().split()
+    text = text.replace('*','').lower().split()
     num = __get_number(text[0])
     # TODO Convert to Regex 
     # Regex for location
@@ -62,10 +62,7 @@ def __get_data():
 
     # Get all the available dates
     datesTag = dataDiv.find_all('h3')
-    datesText = []
-    for date in datesTag:
-        datesText.append(date.get_text())
-
+    datesText = [date.get_text().replace('*','') for date in datesTag]
     # Get all the data regarding cases
     # Lists for data frame
     dataDict = {'dates': [], 'locations': [], 'occupations': [], 'cases': []}

@@ -164,5 +164,5 @@ def generate_bar_layout(title, barmode):
     hf.add_range_selector(layout, default = '1m')
     return layout
 
-def generate_line():
-    return 
+# def generate_line():
+#     return 

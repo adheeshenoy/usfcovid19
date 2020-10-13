@@ -16,6 +16,8 @@ import pandas as pd
 
 server = Flask(__name__)
 
+#TODO Add error bars
+
 # from fbprophet import Prophet
 
 # Function names follow snake case
