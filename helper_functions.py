@@ -8,7 +8,7 @@ from fbprophet import Prophet
 import constants as const
 
 
-def get_df_by_location(df, locations=['Tampa', 'St. Pete', 'Health']):
+def get_df_by_location(df, locations=['Tampa', 'St. Pete', 'Health', 'Sarasota Manatee']):
     '''Divides a dataframe containing multiple locations based on location'''
     return [df[df['locations'] == location] for location in locations]
 

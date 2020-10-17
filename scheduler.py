@@ -16,12 +16,15 @@ class Predictions(db.Model):
     YHAT_TAMPA = db.Column(db.Text(40), nullable=False)
     YHAT_ST_PETE = db.Column(db.Text(40), nullable=False)
     YHAT_HEALTH = db.Column(db.Text(40), nullable=False)
+    # YHAT_SARASOTA = db.Column(db.Text(40), nullable=False)
 
+    # YHAT_SARASOTA
     def __init__(self, DS, YHAT_TAMPA, YHAT_ST_PETE, YHAT_HEALTH):
         self.DS = DS
         self.YHAT_TAMPA = YHAT_TAMPA
         self.YHAT_ST_PETE = YHAT_ST_PETE
         self.YHAT_HEALTH = YHAT_HEALTH
+        # self.YHAT_SARASOTA = YHAT_SARASOTA
     
 #TODO Add covid data to database    
 # class covid_data(db.Model):
@@ -52,9 +55,11 @@ def get_predictions():
     tampa_prediction = hf.get_prediction(location_list[0])
     st_pete_prediction = hf.get_prediction(location_list[1])
     health_prediction = hf.get_prediction(location_list[2])
+    # sarasota_prediction = hf.get_prediction(location_list[3])
 
     new_df = pd.merge(tampa_prediction, st_pete_prediction, on=['ds'])
     new_df = pd.merge(new_df, health_prediction, on=['ds'])
+    # new_df = pd.merge(new_df, sarasota_prediction, on=['ds'])
     new_df = new_df.rename(
         columns={'ds': 'DS', 'yhat_x': 'YHAT_TAMPA', 'yhat_y': 'YHAT_ST_PETE', 'yhat': 'YHAT_HEALTH'})
     new_df.to_sql('prediction', con=db.engine, if_exists='replace', index=False)

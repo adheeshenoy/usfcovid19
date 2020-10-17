@@ -96,6 +96,24 @@ stPeteCardContent = [
     ], style = dict(background = 'white', color = 'black')),
 ]
 
+sarasotaCardContent = [
+    dbc.CardHeader(html.H4("Sarasota-Manatee Campus"),style = dict(background = const.GREY, color = const.DARK_GREEN)),
+    dbc.CardBody([
+        html.H4("Total Cases", className="card-title"),
+        html.H5(
+            "",
+            id='sarasota-card-totalcases',
+            className="card-text",
+        ),
+        html.H4("Latest update", className="card-title"),
+        html.H5(
+            "",
+            id='sarasota-card-update',
+            className="card-text",
+        ),
+    ], style = dict(background = 'white', color = 'black')),
+]
+
 # Card Layout
 cards = html.Div([
     dbc.Row(
@@ -103,6 +121,9 @@ cards = html.Div([
             dbc.Col(dbc.Card(tampaCardContent, className = 'shadow'),
                     className='col-sm'),
             dbc.Col(dbc.Card(stPeteCardContent, className = 'shadow'),
+                    className='col-sm'),
+            # Added Sarasota
+            dbc.Col(dbc.Card(sarasotaCardContent, className = 'shadow'),
                     className='col-sm'),
             dbc.Col(dbc.Card(healthCardContent, className = 'shadow'),
                     className='col-sm')
@@ -193,8 +214,8 @@ generalTabs = html.Div([
                 [
                     dbc.Tab(label="USF Tampa", tab_id="Tampa", label_style = dict(fontSize = '1.25rem')),
                     dbc.Tab(label="USF St. Petersburg", tab_id="St. Pete", label_style = dict(fontSize = '1.25rem')),
+                    dbc.Tab(label="USF Sarasota-Manatee", tab_id="Sarasota Manatee", label_style = dict(fontSize = '1.25rem')),
                     dbc.Tab(label="USF Health", tab_id="Health", label_style = dict(fontSize = '1.25rem')),
-                    # dbc.Tab(label="USF Sarasota-Manatee", tab_id="sarasota-manatee", label_style = dict(fontSize = '1.25rem')),
                 ],
                 id="general-tabs",
                 card=True,

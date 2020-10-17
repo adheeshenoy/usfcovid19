@@ -78,6 +78,8 @@ def updateDataTable(data):
     Output('tampa-card-update', 'children'),
     Output('tampa-card-health-update', 'children'),
     Output('st-pete-card-update', 'children'),
+    Output('sarasota-card-totalcases', 'children'),
+    Output('sarasota-card-update', 'children'),
 ], [Input('data', 'data')])
 def updateCards(data):
     try:
@@ -87,16 +89,18 @@ def updateCards(data):
         dfByLocation = hf.get_df_by_location(df)
 
         # Get total cases for each location
-        totalCasesTampa, totalCasesStPete, totalCasesHealth = hf.get_total_cases_by_location(
+        totalCasesTampa, totalCasesStPete, totalCasesHealth, totalCasesSarasota = hf.get_total_cases_by_location(
             dfByLocation)
 
         # Get daily cases for each location
-        dailyCasesTampa, dailyCasesStPete, dailyCasesHealth = hf.get_daily_cases_by_location(
+        dailyCasesTampa, dailyCasesStPete, dailyCasesHealth, dailyCasesSarasota = hf.get_daily_cases_by_location(
             dfByLocation)
 
         return totalCasesTampa + ' cases', totalCasesHealth + ' cases',totalCasesStPete + ' cases',\
             hf.create_daily_cases_string(dailyCasesTampa), hf.create_daily_cases_string(dailyCasesHealth),\
-            hf.create_daily_cases_string(dailyCasesStPete)
+            hf.create_daily_cases_string(dailyCasesStPete), totalCasesSarasota + ' cases',\
+            hf.create_daily_cases_string(dailyCasesSarasota)
+            
     except Exception as e:
         print('updateCards: ', e)
         raise PreventUpdate
