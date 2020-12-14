@@ -2,3 +2,6 @@ venv
 *.pyc
 .DS_Store
 .env
+.vscode
+async_src.js
+gtag.js
