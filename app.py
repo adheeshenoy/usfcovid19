@@ -43,7 +43,7 @@ app._favicon = '/assets/favicon.ico'
 
 # SQLAlchemy
 app.server.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.server.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://cljfggbbktwade:dd83bd7c6b0694b9d2cd914011ce1b7fc746dc376de1b79ce74bf8b1fb5f0579@ec2-34-195-115-225.compute-1.amazonaws.com:5432/d33hb833fmdl4g'
+app.server.config['SQLALCHEMY_DATABASE_URI'] = 'Postgres URI'
 db = SQLAlchemy(app.server)
 
 app.layout = html.Div([
