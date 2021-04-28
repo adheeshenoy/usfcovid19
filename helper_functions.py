@@ -136,8 +136,6 @@ def add_range_selector(layout, axis_name='xaxis', ranges=None, default=None):
             label = '1 Month'
         elif label == 'all':
             label = 'All'
-        
-        
         if range == 'all':
             return dict(step='all', label = label)
         else:

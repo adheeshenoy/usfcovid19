@@ -16,4 +16,3 @@ OCCUPATION_COLORS = [STORM, APPLE]
 CAMPUS_NAMES = ['Tampa', 'St. Petersburg', 'USF Health', 'Sarasota Manatee']
 OCCUPATION_NAMES = ['Student', 'Employee']
 PREDICTION_COL_NAMES = ['YHAT_TAMPA', 'YHAT_ST_PETE', 'YHAT_HEALTH'] 
-# 'YHAT_SARASOTA'

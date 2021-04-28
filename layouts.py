@@ -221,8 +221,6 @@ generalTabs = html.Div([
                 card=True,
                 active_tab="Tampa",
             ),
-            # style = dict(background = 'white')
-        # ),
         dbc.CardBody(
             html.Div([
                 generalJumbotron,

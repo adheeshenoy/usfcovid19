@@ -16,10 +16,6 @@ import pandas as pd
 
 server = Flask(__name__)
 
-#TODO Add error bars
-
-# from fbprophet import Prophet
-
 # Function names follow snake case
 # Variable names and Callbacks are camel case
 # Ids use hypens
@@ -35,8 +31,6 @@ app = dash.Dash(
         "width=device-width, initial-scale=1, minimum-scale = 1, maximum-scale=1"
     }],
     suppress_callback_exceptions=True)
-
-# server = app.server
 
 app.title = 'USF Covid 19'
 app._favicon = '/assets/favicon.ico'
